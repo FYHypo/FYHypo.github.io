@@ -1,0 +1,970 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fy.jpg">
+  <link rel="icon" href="/img/fy.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="FYHypo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="vulhub Hackademic.RTB1 walkthrough 0x01 端口扫描 主机发现：    全端口扫描：    只开了80，udp扫描：    详细信息扫描+脚本扫描：     好像开启了TRACE提交方法，开始web渗透：  0x02 web渗透 先跑起目录爆破，看前端：    go root可点    可疑参数p，测试idor：    报出cms是wordpress 1.5.1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vulhub Hackademic.RTB1">
+<meta property="og:url" content="https://fyhypo.github.io/2024/03/28/Hackademic.RTB1/index.html">
+<meta property="og:site_name" content="FYHypo&#39;s blog">
+<meta property="og:description" content="vulhub Hackademic.RTB1 walkthrough 0x01 端口扫描 主机发现：    全端口扫描：    只开了80，udp扫描：    详细信息扫描+脚本扫描：     好像开启了TRACE提交方法，开始web渗透：  0x02 web渗透 先跑起目录爆破，看前端：    go root可点    可疑参数p，测试idor：    报出cms是wordpress 1.5.1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fyhypo.github.io/img/Hackademic.RTB1.jpg">
+<meta property="article:published_time" content="2024-03-28T06:49:54.407Z">
+<meta property="article:modified_time" content="2024-03-28T07:08:48.193Z">
+<meta property="article:author" content="FYHypo">
+<meta property="article:tag" content="pentest">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fyhypo.github.io/img/Hackademic.RTB1.jpg">
+  
+  
+  
+  <title>vulhub Hackademic.RTB1 - FYHypo&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fyhypo.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>FYHypo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/none.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="vulhub Hackademic.RTB1"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-28 14:49" pubdate>
+          2024年3月28日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">vulhub Hackademic.RTB1</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>vulhub Hackademic.RTB1 walkthrough</p>
+<h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><blockquote>
+<p>主机发现：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328140855.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>全端口扫描：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328140903.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>只开了80，udp扫描：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328140911.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>详细信息扫描+脚本扫描：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328140923.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328140936.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>好像开启了TRACE提交方法，开始web渗透：</p>
+</blockquote>
+<h2 id="0x02-web渗透"><a href="#0x02-web渗透" class="headerlink" title="0x02 web渗透"></a>0x02 web渗透</h2><blockquote>
+<p>先跑起目录爆破，看前端：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141100.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>go root可点</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141100.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>可疑参数p，测试idor：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141121.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>报出cms是wordpress 1.5.1.1<br>看目录爆破结果：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141134.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>有phpmyadmin页面，也印证了应该是wordpress的cms，但是403了：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141141.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>TRACE也没暴露出什么有用信息：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141157.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>改为审网页源码：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141219.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>发现wp并不在网站根目录，也难怪刚刚没扫到，加上这个路径再次扫描，这次选深度扫描的dirb：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141227.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141234.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>确实是一个wordpress的站，按wordpress的流程走：</p>
+</blockquote>
+<h3 id="wordpress渗透"><a href="#wordpress渗透" class="headerlink" title="wordpress渗透"></a>wordpress渗透</h3><blockquote>
+<p>用户名爆破：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141244.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">wpscan --url http://10.10.10.134/Hackademic_RTB1/ --enumerate u<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>直接上rockyou密码爆破：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141303.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141315.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>跑了很久没跑出来，因为太慢决定换hydra对登录页爆破：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141325.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hydra -l NickJames -P /usr/share/wordlists/rockyou.txt 10.10.10.134 -s 80 http-post-form <span class="hljs-string">&quot;/Hackademic_RTB1/wp-login.php:log=^USER^&amp;pwd=^PASS^&amp;submit=Login+%C2%BB&amp;redirect_to=wp-admin%2F:Back to blog&quot;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>爆破的同时去看看暴露出来的xmlrpc.php能否利用：<br>参考：[[RPC#XML-RPC]]</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141335.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>可以利用，但是不知道凭据的情况下，只能尝试读文件了：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141343.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>无法利用，跑起wpscan的漏洞扫描：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">wpscan --url http://10.10.10.134/Hackademic_RTB1/ --enumerate ap --api-token  0Du8ow5jLqgfJgCOnxvsgKaEZacsPltJCKAaQDyFoCg<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141352.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>扫出16种漏洞，走投无路时来尝试这些公开漏洞</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141403.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>运气很好，hydra已经爆破出了密码，登录：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141424.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>成功登录</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141452.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>研究了半天也没有传文件的地方，猜测是这个用户权限太低了</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141529.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>看到是level 1，应该是权限问题，毕竟该用户名是通过wpscan的简单枚举得到的，应该还有高权限用户，思路转为寻找其他用户</p>
+</blockquote>
+<blockquote>
+<p>根据登录页面输错用户名的特殊报错wrong username尝试爆破：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141604.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hydra -p FYHypo -L /usr/share/wordlists/rockyou.txt 10.10.10.134 -s 80 http-post-form <span class="hljs-string">&quot;/Hackademic_RTB1/wp-login.php:log=^USER^&amp;pwd=^PASS^&amp;submit=Login+%C2%BB&amp;redirect_to=wp-admin%2F:Wrong username&quot;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>没抱太大希望，但果然爆不出来，只能尝试利用刚刚的公开漏洞了：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141612.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>xss不考虑，看到有注入漏洞，这给方向和我们的目标拿新凭据是吻合的，搜索相关利用：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141638.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141645.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>可能的利用点在<code>index?cat</code>参数，尝试：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141657.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>证实cat参数下存在注入点，</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141747.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>测到了布尔盲注，但因为不想写脚本，再测联合注入：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141806.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>也有，那就联合查询注入：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141813.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>1本身有东西，换0看回显点：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141821.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141830.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141853.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141902.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141912.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>注意这里直接写wp_users报错，打引号会被转义也报错，故用十六进制</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141935.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>爆出数据<br>正常注入结束后也尝试了使用sqlmap：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141948.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>必然是选择破解级别最高的 <code>GeorgeMiller | 7cbb3252ba6b7e9c422fac5334d22054</code></p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328141956.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>GeorgeMiller@q1w2e3，登录：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142003.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>有可以编辑php文件的功能：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142012.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142035.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="0x03-内核提权"><a href="#0x03-内核提权" class="headerlink" title="0x03 内核提权"></a>0x03 内核提权</h2><blockquote>
+<p>经过初步枚举未发现基础提权向量，查看内核版本很老，考虑内核提权：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142113.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>跑linpeas：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142143.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142352.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142415.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>基本确定是脏牛了，开始尝试：</p>
+</blockquote>
+<blockquote>
+<ol>
+<li>最经典的40616先编译失败了</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>40611编译成功，但利用失败，没复制出来文件</li>
+</ol>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142425.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<ol start="3">
+<li>因为没有g++，40847自然用不了</li>
+<li>尝试40838：</li>
+</ol>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142435.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>编译成功，执行没反应<br>5. 尝试40839，编译失败</p>
+</blockquote>
+<blockquote>
+<p>打脸了，脏牛可能不太行，linpeas误报，改为直接搜该内核版本的exp</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142510.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>这批先试这几个：</p>
+<ol>
+<li>50135编译失败</li>
+<li>15024编译成功，运行失败</li>
+<li>15916和15944编译成功，运行报错一致</li>
+<li>17787报错</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>继续细化，只看提权：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142523.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>这几个都想试(悲)：</p>
+<ol>
+<li>14814编译成功，执行失败</li>
+<li>15023编译失败</li>
+<li>15774编译成功，执行失败</li>
+<li>34923编译失败</li>
+<li>44302编译成功，执行失败</li>
+<li>34134编译失败</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol>
+<li>44299编译失败</li>
+<li>26131编译失败</li>
+<li>25450编译成功，执行失败</li>
+<li>43345编译成功，执行失败</li>
+<li>45553编译失败</li>
+<li>45010编译失败</li>
+<li>44298编译失败</li>
+<li>44300编译失败</li>
+<li>43418编译失败</li>
+<li>47169编译失败</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>仍没有可以的利用，扩大范围将版本号缩短：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142539.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>尝试新出现的两个：</p>
+<ol>
+<li>8369执行报错</li>
+<li>15285编译成功，执行成功</li>
+</ol>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142553.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>成功提权</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328142635.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="0x04-反思补足"><a href="#0x04-反思补足" class="headerlink" title="0x04 反思补足"></a>0x04 反思补足</h2><blockquote>
+<ol>
+<li>wp渗透环节走了弯路，未注意公开漏洞sql注入：cms框架渗透前先搜公开漏洞，留个印象重点关注</li>
+<li>sql注入环节可以精简：cms框架渗透的数据库结构可以直接查到，节约大量时间<br> <img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143434.png" srcset="/img/loading.gif" lazyload alt="image.png"></li>
+<li>内核提权环节可通过缩短版本号扩大搜索范围，可grep限定Privilege(提权)相关利用</li>
+</ol>
+</blockquote>
+<h2 id="0x04-知识总结"><a href="#0x04-知识总结" class="headerlink" title="0x04 知识总结"></a>0x04 知识总结</h2><h3 id="wordpress渗透流程"><a href="#wordpress渗透流程" class="headerlink" title="wordpress渗透流程"></a>wordpress渗透流程</h3><blockquote>
+<ol start="0">
+<li>目录爆破找登录页和确认rpc、api页面是否启用</li>
+<li>信息收集找版本号</li>
+<li>wpscan扫描可用用户</li>
+<li>wpscan小字典爆破密码</li>
+<li>若登录表单无限制，hydra跑rockyou爆密码</li>
+<li>使用wpscan的ap参数枚举可能的公开漏洞，先大致留个印象，渗透过程中主要留意此类漏洞</li>
+<li>拿到凭据后寻找文件上传点，若没有可先尝试用xmlrpc.php上传</li>
+<li>仍然失败时考虑公开漏洞利用，sql注入(可拿其他高权限用户)优先</li>
+<li>通过公开漏洞信息寻找注入点，此类开源cms甚至可以直接google出数据库结构便利注入</li>
+</ol>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">wpscan --url http://10.10.10.134/Hackademic_RTB1/ --enumerate u  <br><br>wpscan --url http://10.10.10.134/Hackademic_RTB1/ --usernames FYHypo --passwords /usr/share/seclists/Passwords/500-worst-passwords.txt<br><br>wpscan --url http://10.10.10.134/Hackademic_RTB1/ --enumerate ap --api-token  0Du8ow5jLqgfJgCOnxvsgKaEZacsPltJCKAaQDyFoCg<br></code></pre></td></tr></table></figure>
+
+
+<h3 id="内核提权流程"><a href="#内核提权流程" class="headerlink" title="内核提权流程"></a>内核提权流程</h3><blockquote>
+<ol>
+<li>跑linpeas，选probable的cve编号找exp</li>
+<li>直接搜内核版本号+限定权限提升词条，排除无关发行版本的特定利用</li>
+<li>缩短版本号扩大范围</li>
+<li>去掉词条限定，考虑其他利用形式</li>
+<li>直接google由<code>uname -a</code>的回显</li>
+</ol>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">searchsploit --cve &lt;CVE编号&gt; <br>searchsploit -m &lt;exp编号&gt;<br>searchsploit linux kernel 2.6.31.5(完整编号) | grep <span class="hljs-string">&quot;Privilege&quot;</span><br>searchsploit linux kernel 2.6.3(缩短编号) | grep <span class="hljs-string">&quot;Privilege&quot;</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/pentest/" class="print-no-link">#pentest</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>vulhub Hackademic.RTB1</div>
+      <div>https://fyhypo.github.io/2024/03/28/Hackademic.RTB1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>FYHypo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/03/28/Tr0ll/" title="vulhub Tr0ll">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vulhub Tr0ll</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/28/Holynix/" title="vulhub Holynix">
+                        <span class="hidden-mobile">vulhub Holynix</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a target="_blank" rel="nofollow noopener"><span>FYHypo</span></a> <i class="iconfont icon-love"></i> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/custom.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/Cherry.min.js"></script>
+<script src="/live2d-widget/autoload.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
