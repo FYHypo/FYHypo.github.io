@@ -1,0 +1,829 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fy.jpg">
+  <link rel="icon" href="/img/fy.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="FYHypo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="vulhub Holynix walkthrough   该靶机提供的为tar.bz2文件，先用PS解压  0x01 端口扫描 主机发现：    全端口扫描：    tcp只开了80，保险起见进行udp扫描：    目前来看确实只有80开放，进行详细信息扫描：    ubuntu跑着apache，开始web渗透：  0x02 web渗透 跑起目录爆破，同时打开浏览器访问web服务：     一个登">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vulhub Holynix">
+<meta property="og:url" content="https://fyhypo.github.io/2024/03/28/Holynix/index.html">
+<meta property="og:site_name" content="FYHypo&#39;s blog">
+<meta property="og:description" content="vulhub Holynix walkthrough   该靶机提供的为tar.bz2文件，先用PS解压  0x01 端口扫描 主机发现：    全端口扫描：    tcp只开了80，保险起见进行udp扫描：    目前来看确实只有80开放，进行详细信息扫描：    ubuntu跑着apache，开始web渗透：  0x02 web渗透 跑起目录爆破，同时打开浏览器访问web服务：     一个登">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fyhypo.github.io/img/Holynix.jpg">
+<meta property="article:published_time" content="2024-03-28T05:30:30.868Z">
+<meta property="article:modified_time" content="2024-03-28T05:39:56.561Z">
+<meta property="article:author" content="FYHypo">
+<meta property="article:tag" content="pentest">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fyhypo.github.io/img/Holynix.jpg">
+  
+  
+  
+  <title>vulhub Holynix - FYHypo&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fyhypo.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>FYHypo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/none.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="vulhub Holynix"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-28 13:30" pubdate>
+          2024年3月28日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">vulhub Holynix</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>vulhub Holynix walkthrough</p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132109.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>该靶机提供的为tar.bz2文件，先用PS解压</p>
+</blockquote>
+<h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><blockquote>
+<p>主机发现：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132133.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>全端口扫描：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132140.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>tcp只开了80，保险起见进行udp扫描：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132149.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>目前来看确实只有80开放，进行详细信息扫描：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132158.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>ubuntu跑着apache，开始web渗透：</p>
+</blockquote>
+<h2 id="0x02-web渗透"><a href="#0x02-web渗透" class="headerlink" title="0x02 web渗透"></a>0x02 web渗透</h2><blockquote>
+<p>跑起目录爆破，同时打开浏览器访问web服务：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132221.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132228.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>一个登录界面</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132239.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132300.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>一句话绕过登录，以alamo身份进到系统</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132308.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>雇员名单</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132318.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>从留言板得知信息：</p>
+<ol>
+<li>可能目标机安装了gcc</li>
+<li>可能有一个每五分钟一次的计划任务</li>
+<li>ssh服务被部署了端口敲击隐藏起来</li>
+</ol>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132327.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>可以上传文件，且可以自动解压gzip文件</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132347.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>只多扫出来两个存放杂文件的目录<br>从文件上传入手：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132353.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>报错alamo不允许传文件<br>那就先看Security项目：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132400.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>该功能通过此选项控制下方内容，抓包测试，无注入，但text_file_name参数处存在目录穿越：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132409.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>读到&#x2F;etc&#x2F;passwd发现除了alamo还有不少其他用户，可能有人有文件上传权限，又想起来登录页面有注入点，尝试注入：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132428.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>可以打通，且有creds库，查看：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132439.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>看到sqlmap使用的盲注，跑字段果然dump不出来东西，如果还要查就需要写盲注脚本了<br>不过先不急，还有另一个线索可以尝试：<br>目录穿越可以成功，大概率使用的数据流操作函数，尝试使用伪协议读文件：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132448.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">if</span> ( <span class="hljs-variable">$auth</span> == <span class="hljs-number">0</span> ) &#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;center&gt;&lt;h2&gt;Content Restricted&lt;/h2&gt;&lt;/center&gt;&quot;</span>;<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;h3&gt;Home Directory Uploader&lt;/h3&gt;&quot;</span>;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;form enctype=&#x27;multipart/form-data&#x27; action=&#x27;index.php?page=transfer.php&#x27; method=&#x27;POST&#x27;&gt;&quot;</span>;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Please choose a file: &lt;input name=&#x27;uploaded&#x27; type=&#x27;file&#x27; /&gt;&lt;br /&gt;&quot;</span>;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;input type=&#x27;checkbox&#x27; name=&#x27;autoextract&#x27; value=&#x27;true&#x27; /&gt; Enable the automatic extraction of gzip archives.&lt;br&gt;&quot;</span>;<br>	<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;input type=&#x27;submit&#x27; value=&#x27;Upload&#x27; /&gt;&lt;/form&gt;&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>果然可以，这里可以看到upload页面使用auth校验身份，但此文件中又未定义，那么大胆猜测是通过cookie验证的，抓包：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132456.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>很幸运的是直接用uid&#x3D;1确定身份，尝试修改：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132518.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>成功上传，且看到名字变成了etenenbaum</p>
+</blockquote>
+<blockquote>
+<p>为了找上传路径，查看上传文件的transfer.php：</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">if</span> ( <span class="hljs-variable">$auth</span> == <span class="hljs-number">0</span> ) &#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;center&gt;&lt;h2&gt;Content Restricted&lt;/h2&gt;&lt;/center&gt;&quot;</span>;<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>	<span class="hljs-keyword">if</span> ( <span class="hljs-variable">$upload</span> == <span class="hljs-number">1</span> )<br>	&#123;<br>		<span class="hljs-variable">$homedir</span> = <span class="hljs-string">&quot;/home/&quot;</span>.<span class="hljs-variable">$logged_in_user</span>. <span class="hljs-string">&quot;/&quot;</span>;<br>		<span class="hljs-variable">$uploaddir</span> = <span class="hljs-string">&quot;upload/&quot;</span>;<br>		<span class="hljs-variable">$target</span> = <span class="hljs-variable">$uploaddir</span> . <span class="hljs-title function_ invoke__">basename</span>( <span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&#x27;uploaded&#x27;</span>][<span class="hljs-string">&#x27;name&#x27;</span>]) ;<br>		<span class="hljs-variable">$uploaded_type</span> = <span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&#x27;uploaded&#x27;</span>][<span class="hljs-string">&#x27;type&#x27;</span>];<br>		<span class="hljs-variable">$command</span>=<span class="hljs-number">0</span>;<br>		<span class="hljs-variable">$ok</span>=<span class="hljs-number">1</span>;<br><br>		<span class="hljs-keyword">if</span> ( <span class="hljs-variable">$uploaded_type</span> ==<span class="hljs-string">&quot;application/gzip&quot;</span> &amp;&amp; <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;autoextract&#x27;</span>] == <span class="hljs-string">&#x27;true&#x27;</span> ) &#123;	<span class="hljs-variable">$command</span> = <span class="hljs-number">1</span>; &#125;<br><br>		<span class="hljs-keyword">if</span> (<span class="hljs-variable">$ok</span>==<span class="hljs-number">0</span>)<br>		&#123;<br>			<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Sorry your file was not uploaded&quot;</span>;<br>			<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;a href=&#x27;?index.php?page=upload.php&#x27; &gt;Back to upload page&lt;/a&gt;&quot;</span>;<br>		&#125; <span class="hljs-keyword">else</span> &#123;<br>        		<span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">move_uploaded_file</span>(<span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&#x27;uploaded&#x27;</span>][<span class="hljs-string">&#x27;tmp_name&#x27;</span>], <span class="hljs-variable">$target</span>))<br>			&#123;<br>				<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;h3&gt;The file &#x27;&quot;</span> .<span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&#x27;uploaded&#x27;</span>][<span class="hljs-string">&#x27;name&#x27;</span>]. <span class="hljs-string">&quot;&#x27; has been uploaded.&lt;/h3&gt;&lt;br /&gt;&quot;</span>;<br>				<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;The ownership of the uploaded file(s) have been changed accordingly.&quot;</span>;<br>				<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br /&gt;&lt;a href=&#x27;?page=upload.php&#x27; &gt;Back to upload page&lt;/a&gt;&quot;</span>;<br>				<span class="hljs-keyword">if</span> ( <span class="hljs-variable">$command</span> == <span class="hljs-number">1</span> )<br>				&#123;<br>					<span class="hljs-title function_ invoke__">exec</span>(<span class="hljs-string">&quot;sudo tar xzf &quot;</span> .<span class="hljs-variable">$target</span>. <span class="hljs-string">&quot; -C &quot;</span> .<span class="hljs-variable">$homedir</span>);<br>					<span class="hljs-title function_ invoke__">exec</span>(<span class="hljs-string">&quot;rm &quot;</span> .<span class="hljs-variable">$target</span>);<br>				&#125; <span class="hljs-keyword">else</span> &#123;<br>					<span class="hljs-title function_ invoke__">exec</span>(<span class="hljs-string">&quot;sudo mv &quot;</span> .<span class="hljs-variable">$target</span>. <span class="hljs-string">&quot; &quot;</span> .<span class="hljs-variable">$homedir</span> . <span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&#x27;uploaded&#x27;</span>][<span class="hljs-string">&#x27;name&#x27;</span>]);<br>				&#125;<br>				<span class="hljs-title function_ invoke__">exec</span>(<span class="hljs-string">&quot;/var/apache2/htdocs/update_own&quot;</span>);<br>        		&#125; <span class="hljs-keyword">else</span> &#123;<br>				<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Sorry, there was a problem uploading your file.&lt;br /&gt;&quot;</span>;<br>				<span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br /&gt;&lt;a href=&#x27;?page=upload.php&#x27; &gt;Back to upload page&lt;/a&gt;&quot;</span>;<br>			&#125;<br>		&#125;<br>	&#125; <span class="hljs-keyword">else</span> &#123; <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;br /&gt;&lt;br /&gt;&lt;h3&gt;Home directory uploading disabled for user &quot;</span> .<span class="hljs-variable">$logged_in_user</span>. <span class="hljs-string">&quot;&lt;/h3&gt;&quot;</span>; &#125;<br>&#125;<br><span class="hljs-meta">?&gt;</span><br><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<ol>
+<li>不使用解压缩功能：上传到upload&#x2F;，之后移动到对应的家目录</li>
+<li>使用解压缩功能：上传到upload&#x2F;，解压缩到对应的家目录</li>
+<li>还执行了一个脚本 <code>exec(&quot;/var/apache2/htdocs/update_own&quot;)</code></li>
+</ol>
+</blockquote>
+<blockquote>
+<p>&#x2F;var&#x2F;apache2&#x2F;htdocs&#x2F;update_own：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>sudo <span class="hljs-built_in">chown</span> root:root /home/<br>sudo <span class="hljs-built_in">chown</span> -R alamo:developers /home/alamo/<br>sudo <span class="hljs-built_in">chown</span> -R nobody:developers /home/development/<br>sudo <span class="hljs-built_in">chown</span> -R etenenbaum:<span class="hljs-built_in">users</span> /home/etenenbaum/<br>sudo <span class="hljs-built_in">chown</span> -R gmckinnon:<span class="hljs-built_in">users</span> /home/gmckinnon/<br>sudo <span class="hljs-built_in">chown</span> -R hreiser:staff /home/hreiser/<br>sudo <span class="hljs-built_in">chown</span> -R jdraper:<span class="hljs-built_in">users</span> /home/jdraper/<br>sudo <span class="hljs-built_in">chown</span> -R jjames:staff /home/jjames/<br>sudo <span class="hljs-built_in">chown</span> -R jljohansen:developers /home/jljohansen/<br>sudo <span class="hljs-built_in">chown</span> -R kpoulsen:<span class="hljs-built_in">users</span> /home/kpoulsen/<br>sudo <span class="hljs-built_in">chown</span> -R ltorvalds:admin /home/ltorvalds/<br>sudo <span class="hljs-built_in">chown</span> -R mrbutler:staff /home/mrbutler/<br>sudo <span class="hljs-built_in">chown</span> -R rtmorris:<span class="hljs-built_in">users</span> /home/rtmorris/<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>暴露出了所有用户名，暂时没什么用<br>前往家目录找上传的马：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132530.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="apache每用户目录"><a href="#apache每用户目录" class="headerlink" title="apache每用户目录"></a>apache每用户目录</h3><blockquote>
+<p>从源码可以看到最终的保存路径是&#x2F;home&#x2F;user，但只能通过~user的方式从web访问到：</p>
+</blockquote>
+<blockquote>
+<p>Apache Web 服务器通常允许用户创建个人网页或站点，这些网页可以存放在每个用户的个人目录中。</p>
+</blockquote>
+<blockquote>
+<p>http:&#x2F;&#x2F;&lt;ip&gt;&#x2F;<del>user1 和 http:&#x2F;&#x2F;&lt;ip&gt;&#x2F;home&#x2F;user1 并不等价。在Apache Web服务器中，&#x2F;home&#x2F;user1 是用户的个人目录的实际位置，而 ~user1 是通过mod_userdir模块配置的用户主页的访问路径。http:&#x2F;&#x2F;&lt;ip&gt;&#x2F;</del>user1 是一种特定的语法，在Web服务器中会被解析为用户 user1 的个人目录。而 http:&#x2F;&#x2F;&lt;ip&gt;&#x2F;home&#x2F;user1 则是直接指向 &#x2F;home&#x2F;user1 目录的路径，没有经过 Apache 的 mod_userdir 模块的解析。因此，这个路径可能无法正常访问到用户的个人网页。</p>
+</blockquote>
+<blockquote>
+<p>回到题目：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132538.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>居然没有读权限！猜测对整个家目录的上传的文件不具有读权限，想起来上传点还有解压功能，而且tar的解压命令是支持动态软链接的，值得尝试通过软链接将上传路径改到web根目录：</p>
+</blockquote>
+<h3 id="软链接写马"><a href="#软链接写马" class="headerlink" title="软链接写马"></a>软链接写马</h3><p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132611.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>test1用来改变目录，删掉现有test文件，创建test目录用来写马：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132621.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>依次上传test1、test2，最终在web路径下访问shell.php：</p>
+</blockquote>
+<blockquote>
+<p>注意：上传完test1后其实并不会在旧上传目录下看到test，将test理解为管道较为合适<br><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132629.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132639.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>成功rce，反弹shell：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132649.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132656.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>使用mkfifo反弹成功</p>
+</blockquote>
+<h2 id="0x03-提权"><a href="#0x03-提权" class="headerlink" title="0x03 提权"></a>0x03 提权</h2><p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132717.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>这里也可以看到test确实指向了网站根目录</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132731.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>sudo枚举发现不需要密码就可以执行mv</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132738.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="mv提权"><a href="#mv提权" class="headerlink" title="mv提权"></a>mv提权</h3><blockquote>
+<p>由于<code>sudo mv</code>不需要密码，故将&#x2F;bin&#x2F;su移为&#x2F;bin&#x2F;mv，执行<code>sudo mv</code>即无密码执行<code>sudo su</code></p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132757.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="0x04-总结反思补足"><a href="#0x04-总结反思补足" class="headerlink" title="0x04 总结反思补足"></a>0x04 总结反思补足</h2><h3 id="文件上传软链接"><a href="#文件上传软链接" class="headerlink" title="文件上传软链接"></a>文件上传软链接</h3><blockquote>
+<p>利用1. 任意文件读取<br>条件：知道绝对路径、(www-data) 有读权限</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132805.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p><code>zip --symlinks</code>和<code>tar czf</code>均可打包动态的软链接，上传被解压后访问可以像钩子把目标文件勾出来</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> -s /flag getflag<br>tar czf getflag.tar.gz getflag<br>zip --symlinks getflag.zip getflag<br></code></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>利用2. 改变文件上传路径<br>条件：知道网站根目录绝对路径</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132814.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>test1用来改变目录，删掉现有test文件，创建test目录用来写马：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132827.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>依次上传test1、test2，最终在web路径下访问shell.php：</p>
+</blockquote>
+<blockquote>
+<p>注意：上传完test1后其实并不会在旧上传目录下看到test，将test理解为管道较为合适<br><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132849.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132855.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>在web路径下访问到了shell.php</p>
+</blockquote>
+<h3 id="sqlmap少用batch"><a href="#sqlmap少用batch" class="headerlink" title="sqlmap少用batch"></a>sqlmap少用batch</h3><blockquote>
+<p>再次使用sqlmap跑了遍注入，去掉了batch参数，跑出来了：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328132908.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="0x05-总结"><a href="#0x05-总结" class="headerlink" title="0x05 总结"></a>0x05 总结</h2><ol>
+<li>端口扫描：只扫到了web服务，且存在sql注入</li>
+<li>web渗透：sql一句话进入系统后台，存在当前用户无法使用的文件上传功能，修改cookie成功越权；在找不到上传路径的情况下发现文件包含点，利用伪协议读出各文件，得知上传路径为家目录，但无权访问家目录下的shell；猜测原因为目录权限问题，结合提供了解压缩功能，上传软链接修改上传路径为web根目录，在新上传路径下访问到shell，蚁剑连接，尝试多种反弹shell语句，最终mkfifo反弹成功</li>
+<li>提权：mv命令具有无需密码的sudo权限，将mv的执行文件替换为su的执行文件，执行sudo mv达到sudo su的提权效果</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/pentest/" class="print-no-link">#pentest</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>vulhub Holynix</div>
+      <div>https://fyhypo.github.io/2024/03/28/Holynix/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>FYHypo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/27/jarbas/" title="vulhub jarbas">
+                        <span class="hidden-mobile">vulhub jarbas</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a target="_blank" rel="nofollow noopener"><span>FYHypo</span></a> <i class="iconfont icon-love"></i> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/custom.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/Cherry.min.js"></script>
+<script src="/live2d-widget/autoload.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
