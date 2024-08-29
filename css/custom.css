@@ -114,7 +114,7 @@ svg {
 
 /* 设置背景 */
 body {
-	background: url(/img/background.jpg);
+	background: url(https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/background.jpg);
 	background-attachment: fixed;
 	background-size: cover;  
   }
