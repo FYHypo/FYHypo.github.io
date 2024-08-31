@@ -4,7 +4,7 @@
   
   
   <entry>
-    <title></title>
+    <title>HTB Buff</title>
     <link href="/2024/08/31/Buff/"/>
     <url>/2024/08/31/Buff/</url>
     
@@ -12,12 +12,18 @@
     
     
     
+    <tags>
+      
+      <tag>pentest</tag>
+      
+    </tags>
+    
   </entry>
   
   
   
   <entry>
-    <title>&#92;[HTB&#92;] Driver</title>
+    <title>HTB Driver</title>
     <link href="/2024/08/31/Driver/"/>
     <url>/2024/08/31/Driver/</url>
     
