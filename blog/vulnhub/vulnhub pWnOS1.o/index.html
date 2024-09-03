@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fyhypo.github.io/img/pWnOS1.jpg">
 <meta property="article:published_time" content="2024-08-31T14:10:15.026Z">
-<meta property="article:modified_time" content="2024-08-31T14:10:35.174Z">
+<meta property="article:modified_time" content="2024-09-03T03:15:31.906Z">
 <meta property="article:author" content="FYHypo">
 <meta property="article:tag" content="pentest">
 <meta name="twitter:card" content="summary_large_image">
@@ -279,79 +279,79 @@
             
               <div class="markdown-body">
                 
-                <h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320190732.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320191023.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320191319.png" srcset="/img/loading.gif" lazyload></p>
+                <h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320190732.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320191023.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320191319.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>80web、10000webmin、22ssh、445smb</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320191520.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320191656.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320191909.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320191520.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320191656.png" srcset="/img/loading.gif" lazyload><br><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320191909.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>扫到10000端口可能有目录穿越，以%01截断，试了一下没什么用</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320193103.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320193103.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>对于80端口nikto好像发现了重要信息：php目录、index1.php文件包含报错</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320193530.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320193530.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>10000端口扫出了可能的漏洞cve-2006-3392</p>
 </blockquote>
 <h2 id="0x02-web渗透"><a href="#0x02-web渗透" class="headerlink" title="0x02 web渗透"></a>0x02 web渗透</h2><blockquote>
 <p>先看80，同时起目录爆破</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320193925.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320194000.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320193925.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320194000.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>包含点在connect位置</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320194107.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320194107.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>三个用户名：obama、osama、yomama</p>
 </blockquote>
 <blockquote>
 <p>目录爆破：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320195438.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320195453.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320195438.png" srcset="/img/loading.gif" lazyload><br><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320195453.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>找到了需要登录的phpmyadmin，直接通过包含点偷出配置文件：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320195538.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320195605.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320195851.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320195538.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320195605.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320195851.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>很奇怪没有登录成功，猜测可能是使用的不是这个配置文件？</p>
 </blockquote>
 <blockquote>
 <p>走投无路，选择去看10000端口：</p>
 </blockquote>
-<h3 id="webmim"><a href="#webmim" class="headerlink" title="webmim"></a>webmim</h3><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320203539.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320203458.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="webmim"><a href="#webmim" class="headerlink" title="webmim"></a>webmim</h3><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320203539.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320203458.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>很无奈不能爆破<br>走投无路，选择搜下扫出的cve：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320203607.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320203607.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>readme：可无视权限读取任意文件、需要提前修改ip</p>
 </blockquote>
 <blockquote>
 <p>尝试读shadow：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320204218.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320210229.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320204218.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320210229.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>爆破：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320213443.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320213443.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>拿到立足点</p>
 </blockquote>
 <h2 id="0x03-提权"><a href="#0x03-提权" class="headerlink" title="0x03 提权"></a>0x03 提权</h2><blockquote>
 <p>跑linpeas：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320213641.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320215150.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320213641.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320215150.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>尝试了几种方法都失败了，看了wp，居然是shellshock</p>
 </blockquote>

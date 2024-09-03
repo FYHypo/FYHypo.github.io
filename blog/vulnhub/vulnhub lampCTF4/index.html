@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fyhypo.github.io/img/lampCTF4.jpg">
 <meta property="article:published_time" content="2024-08-31T14:08:08.705Z">
-<meta property="article:modified_time" content="2024-08-31T14:08:08.705Z">
+<meta property="article:modified_time" content="2024-09-03T03:15:31.904Z">
 <meta property="article:author" content="FYHypo">
 <meta property="article:tag" content="pentest">
 <meta name="twitter:card" content="summary_large_image">
@@ -279,34 +279,34 @@
             
               <div class="markdown-body">
                 
-                <h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319165102.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319165455.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319165602.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319170043.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319170706.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319170856.png" srcset="/img/loading.gif" lazyload></p>
+                <h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319165102.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319165455.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319165602.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319170043.png" srcset="/img/loading.gif" lazyload><br><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319170706.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319170856.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>根据扫描结果，攻击面看起来非常大：<br>smtp：好像可以访问<br>web：目录枚举出很多有趣的东西robots、admin、mail、wp-config</p>
 </blockquote>
-<h2 id="0x02-web渗透"><a href="#0x02-web渗透" class="headerlink" title="0x02 web渗透"></a>0x02 web渗透</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319174158.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319174210.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x02-web渗透"><a href="#0x02-web渗透" class="headerlink" title="0x02 web渗透"></a>0x02 web渗透</h2><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319174158.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319174210.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>一脸懵，不过给一堆文字的之后可以用来cewl生成字典</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319175110.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319175110.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>在blog页面发现了注入，可以盲注，直接sqlmap嗦了</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319175628.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319175743.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319180000.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319175628.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319175743.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319180000.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>在mysql库中拿到两组数据库凭据：root@database、roundcube@password</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319194046.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319194046.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>在ehks库中拿到6组破解</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319194259.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319194259.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>在calendar库中拿到6组凭据</p>
 </blockquote>
@@ -315,15 +315,15 @@
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">crackmapexec ssh 10.10.10.151 -p passw.txt -u user.txt --continue-on-success | grep <span class="hljs-string">&#x27;+&#x27;</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240319204204.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240319204204.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>以achen登录，拿到立足点</p>
 </blockquote>
-<h2 id="0x03-提权"><a href="#0x03-提权" class="headerlink" title="0x03 提权"></a>0x03 提权</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320162650.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x03-提权"><a href="#0x03-提权" class="headerlink" title="0x03 提权"></a>0x03 提权</h2><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320162650.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>尝试其他用户：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320162755.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320162844.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320162932.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320163011.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240320163115.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320162755.png" srcset="/img/loading.gif" lazyload><br><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320162844.png" srcset="/img/loading.gif" lazyload><br><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320162932.png" srcset="/img/loading.gif" lazyload><br><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320163011.png" srcset="/img/loading.gif" lazyload><br><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240320163115.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>经尝试，dstevens和achen有sudo ALL</p>
 </blockquote>

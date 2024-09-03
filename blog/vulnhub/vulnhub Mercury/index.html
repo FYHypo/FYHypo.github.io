@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fyhypo.github.io/img/Mercury.jpg">
 <meta property="article:published_time" content="2024-08-31T14:05:08.699Z">
-<meta property="article:modified_time" content="2024-08-31T14:05:08.700Z">
+<meta property="article:modified_time" content="2024-09-03T03:15:31.904Z">
 <meta property="article:author" content="FYHypo">
 <meta property="article:tag" content="pentest">
 <meta name="twitter:card" content="summary_large_image">
@@ -279,90 +279,90 @@
             
               <div class="markdown-body">
                 
-                <h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301164809.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301165013.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301165415.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301165631.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301165935.png" srcset="/img/loading.gif" lazyload></p>
+                <h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301164809.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301165013.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301165415.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301165631.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301165935.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>扫描结果：8080、22<br>其余信息什么也没有，开始web渗透：</p>
 </blockquote>
-<h2 id="0x02-web渗透"><a href="#0x02-web渗透" class="headerlink" title="0x02 web渗透"></a>0x02 web渗透</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301170757.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x02-web渗透"><a href="#0x02-web渗透" class="headerlink" title="0x02 web渗透"></a>0x02 web渗透</h2><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301170757.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>可以确定是目录爆破</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301170712.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301170712.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>各目录扫描均无结果，怀疑是特殊目录名，打开浏览器测试：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301172406.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301172406.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>熟悉的django的404页面，而且开启了debug，暴露出了所有目录，由此得知了隐藏目录mercuryfacts</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301172457.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301172555.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301172616.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301172457.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301172555.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301172616.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>好像没什么信息，下载图片检查，没有信息</p>
 </blockquote>
 <blockquote>
 <p>又注意到facts&#x2F;1处伪静态传参，想到todo里面说直接连接了数据库，测试注入：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301173814.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301173814.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>测出注入，选用报错注入：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301174003.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301174654.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301175040.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301174003.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301174654.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301175040.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>另注意：若跑sqlmap，注入点在url要在注入点前加星号</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sqlmap -u <span class="hljs-string">&quot;10.10.10.147:8080/mercuryfacts/*1/&quot;</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301175856.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240301180033.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301175856.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240301180033.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>webmaster登录成功</p>
 </blockquote>
-<h2 id="0x03-提权–pwnkit"><a href="#0x03-提权–pwnkit" class="headerlink" title="0x03 提权–pwnkit"></a>0x03 提权–pwnkit</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306153215.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306153235.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306153304.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x03-提权–pwnkit"><a href="#0x03-提权–pwnkit" class="headerlink" title="0x03 提权–pwnkit"></a>0x03 提权–pwnkit</h2><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306153215.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306153235.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306153304.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>拿到linuxmaster的凭证</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306153412.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306153412.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>枚举时意外的发现polkit有root的s位，尝试提权：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306154847.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306154847.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>常规利用失败，尝试打pwnkit：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306154934.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306154934.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>成功提权</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306155027.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306155027.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="0x04-预期提权–环境变量劫持-sudo提权"><a href="#0x04-预期提权–环境变量劫持-sudo提权" class="headerlink" title="0x04 预期提权–环境变量劫持+sudo提权"></a>0x04 预期提权–环境变量劫持+sudo提权</h2><blockquote>
 <p>在linuxmaster下sudo枚举：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306160141.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306160141.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>有sudo权限的脚本文件使用了tail命令，很遗憾这个脚本没有写权限，但是可以执行，想到可以用环境变量去劫持掉tail命令，替换成vim命令，此时就可以把命令执行点外带出来</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306161148.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306161148.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>注意：，sudo 命令会使用安全的默认的PATH路径，并不会使用我们刚export的当前目录，故产生了上述报错，需要加一个<code>--preserve-env=PATH</code>参数</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306161316.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306161349.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306161422.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306161316.png" srcset="/img/loading.gif" lazyload><br><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306161349.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306161422.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>成功root</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> -s /usr/bin/vim <span class="hljs-built_in">tail</span><br><span class="hljs-built_in">export</span> PATH=$(<span class="hljs-built_in">pwd</span>):<span class="hljs-variable">$PATH</span><br>sudo --preserve-env=PATH /usr/bin/check_syslog.sh<br></code></pre></td></tr></table></figure>
 
-<h2 id="0x05-非预期–内核提权"><a href="#0x05-非预期–内核提权" class="headerlink" title="0x05 非预期–内核提权"></a>0x05 非预期–内核提权</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240306164031.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x05-非预期–内核提权"><a href="#0x05-非预期–内核提权" class="headerlink" title="0x05 非预期–内核提权"></a>0x05 非预期–内核提权</h2><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240306164031.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="0x06-总结"><a href="#0x06-总结" class="headerlink" title="0x06 总结"></a>0x06 总结</h2><ol>
 <li>端口扫描：ssh、web</li>
 <li>web渗透：django未关debug导致404报错出隐藏目录，对url的页面参数注入，报错注入拿到登录凭据</li>

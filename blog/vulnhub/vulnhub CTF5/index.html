@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://fyhypo.github.io/img/CTF5.jpg">
 <meta property="article:published_time" content="2024-08-31T13:56:54.188Z">
-<meta property="article:modified_time" content="2024-08-31T13:57:21.505Z">
+<meta property="article:modified_time" content="2024-09-03T03:15:31.901Z">
 <meta property="article:author" content="FYHypo">
 <meta property="article:tag" content="pentest">
 <meta name="twitter:card" content="summary_large_image">
@@ -279,101 +279,101 @@
             
               <div class="markdown-body">
                 
-                <h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240221192354.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240221193550.png" srcset="/img/loading.gif" lazyload></p>
+                <h2 id="0x01-端口扫描"><a href="#0x01-端口扫描" class="headerlink" title="0x01 端口扫描"></a>0x01 端口扫描</h2><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240221192354.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240221193550.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>web、smb、mysql、pop3、imap、ssh</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240221194507.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240221194507.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>web服务扫到了sql注入、csrf、phpmyadmin</p>
 </blockquote>
-<h2 id="0x02-smtp服务"><a href="#0x02-smtp服务" class="headerlink" title="0x02 smtp服务"></a>0x02 smtp服务</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240221194816.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x02-smtp服务"><a href="#0x02-smtp服务" class="headerlink" title="0x02 smtp服务"></a>0x02 smtp服务</h2><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240221194816.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>smtp服务仅用于传输电子邮件，无法查看信息；而pop3和imap需要提供登录凭证，故现焦点聚集在web处</p>
 </blockquote>
-<h2 id="0x03-web渗透"><a href="#0x03-web渗透" class="headerlink" title="0x03 web渗透"></a>0x03 web渗透</h2><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240221195149.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="0x03-web渗透"><a href="#0x03-web渗透" class="headerlink" title="0x03 web渗透"></a>0x03 web渗透</h2><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240221195149.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>看着就很像有cms的样子，在跑目录爆破的同时先初步侦查：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240221201546.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240221201546.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>使用的是nanocms</p>
 </blockquote>
 <h3 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h3><blockquote>
 <p>在list目录下发现注入点：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222184143.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222184240.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222184535.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222184143.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222184240.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222184535.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>报错注入函数不存在，换布尔盲注：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222185617.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222185617.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>回显不会变，换时间盲注：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222185541.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222185541.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>可以成功，不想写脚本，所以用了sqlmap：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222185730.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222185941.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222185730.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222185941.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>在drupal-users下拿到用户凭据，破解哈希：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222190200.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222190200.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>拿到四个凭据</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222190409.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222190409.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>经尝试，并非ssh凭据，为events的登录凭据：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222191049.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222191145.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222191049.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222191145.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>但是没有包含点无法利用，这条路放弃了，攻击点转向cms</p>
 </blockquote>
-<h3 id="NanoCMS"><a href="#NanoCMS" class="headerlink" title="NanoCMS"></a>NanoCMS</h3><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222110142.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222110238.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="NanoCMS"><a href="#NanoCMS" class="headerlink" title="NanoCMS"></a>NanoCMS</h3><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222110142.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222110238.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>根据公开漏洞所说，该页面会暴露出用户名和密码的哈希：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222110335.png" srcset="/img/loading.gif" lazyload><br><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222110407.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222110335.png" srcset="/img/loading.gif" lazyload><br><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222110407.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>凭据：admin@shannon</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222110657.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222110657.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>按照利用中的说明，我们可以编辑php文件拿到控制权</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222112154.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222112202.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222112154.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222112202.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>写马反弹shell：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222112450.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222112450.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="0x04-提权"><a href="#0x04-提权" class="headerlink" title="0x04 提权"></a>0x04 提权</h2><blockquote>
 <p>linEnum枚举：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222113409.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222113451.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222113711.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222113409.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222113451.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222113711.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>尝试枚举各提权向量无果，又无gcc，看了wp：<br>竟然是把root的密码写在了家目录的隐藏文件中</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222121209.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222121220.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222121348.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222121209.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222121220.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222121348.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>执行过报错root passwd的操作</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222121557.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222121557.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>root@50$cent</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222121823.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222121823.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="0x05-反思总结"><a href="#0x05-反思总结" class="headerlink" title="0x05 反思总结"></a>0x05 反思总结</h2><blockquote>
 <p>本题至少有4种解法：nanocms漏洞、ssh爆破、sql注入、SquirrelMail公开漏洞<br>参考： <a target="_blank" rel="noopener" href="https://github.com/blinils/CTF/blob/master/CTF-VulnLabs/lampsecurity-CTF5/README.md">https://github.com/blinils/CTF/blob/master/CTF-VulnLabs/lampsecurity-CTF5/README.md</a></p>
 </blockquote>
@@ -385,33 +385,33 @@
 <h2 id="0x07-解2–squirrelmail"><a href="#0x07-解2–squirrelmail" class="headerlink" title="0x07 解2–squirrelmail"></a>0x07 解2–squirrelmail</h2><blockquote>
 <p>由目录爆破结果来到squirrelmail登录页面：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222183313.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222183313.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>SquirrelMail 是一个基于 Web 的邮件客户端，主要用于管理和访问通过 IMAP 和 POP3 协议存储的电子邮件。它提供了一个用户友好的界面，允许用户通过 Web 浏览器收发邮件、创建文件夹、搜索等操作。</p>
 </blockquote>
 <blockquote>
 <p>需要我们有用户登录凭证，尝试sql注入得到的凭据错误，考虑爆破<br>用户名可以通过文件包含点获得，也可以通过之前sql注入结果得知：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222192408.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222192606.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222192408.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222192606.png" srcset="/img/loading.gif" lazyload></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hydra -L user.txt -P /usr/share/wordlists/rockyou.txt 10.10.10.141 http-post-form <span class="hljs-string">&quot;/mail/src/redirect.php:js_autodetect_results=1&amp;just_logged_in=1&amp;login_username=^USER^&amp;secretkey=^PASS^:ERROR&quot;</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222193659.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222193721.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222193659.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222193721.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>成功登录</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222194133.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222194133.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>拿到版本号，搜索公开漏洞：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222194245.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222194245.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>注意：本地的exp有问题跑不起来，exp下载地址：(<a target="_blank" rel="noopener" href="https://legalhackers.com/exploits/CVE-2017-7692/SquirrelMail_RCE_exploit.sh">https://legalhackers.com/exploits/CVE-2017-7692/SquirrelMail_RCE_exploit.sh</a>)</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222195326.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222195341.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222195227.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222195326.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222195341.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222195227.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>拿到立足点</p>
 </blockquote>
@@ -420,26 +420,26 @@
 <blockquote>
 <p>注意：hydra爆破时加密算法报错解决方法如下</p>
 </blockquote>
-<h3 id="hydra爆破时加密算法报错解决方法"><a href="#hydra爆破时加密算法报错解决方法" class="headerlink" title="hydra爆破时加密算法报错解决方法"></a>hydra爆破时加密算法报错解决方法</h3><p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222202817.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="hydra爆破时加密算法报错解决方法"><a href="#hydra爆破时加密算法报错解决方法" class="headerlink" title="hydra爆破时加密算法报错解决方法"></a>hydra爆破时加密算法报错解决方法</h3><p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222202817.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>在<code>/etc/ssh/ssh_config</code>中加入以下内容</p>
 </blockquote>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">KexAlgorithms</span> diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1<br>    <span class="hljs-attribute">HostKeyAlgorithms</span> ssh-rsa,ssh-dss<br>    <span class="hljs-comment"># Ciphers 3des-cbc</span><br>    <span class="hljs-attribute">MACs</span> hmac-md5,hmac-sha1,hmac-ripemd160,hmac-ripemd160@openssh.com,hmac-sha1-<span class="hljs-number">96</span>,hmac-md5-<span class="hljs-number">96</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222202944.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222202944.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>开始爆破：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222203017.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222211346.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222203017.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222211346.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>成功拿到两个ssh凭据，以patrick登录<br>注意：爆破完之后把ssh_config的最后一句重新注释掉，否则无法正常ssh连接</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222212018.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222212018.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>查看bash_history：</p>
 </blockquote>
-<p><img src="https://raw.githubusercontent.com/FYHypo/FYHypo.github.io/main/img/pic/Pasted%20image%2020240222212138.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://cdn.jsdelivr.net/gh/FYHypo/FYHypo.github.io@main/img/pic/Pasted%20image%2020240222212138.png" srcset="/img/loading.gif" lazyload></p>
 <blockquote>
 <p>由于失误将<code>su</code>拼错为<code>sus</code>，后面输入的root的密码被明文显示了，使用其可直接完成提权</p>
 </blockquote>
